@@ -1,0 +1,14 @@
+#screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 80%;
+    margin: auto;
+    background-color: #55b472;
+}
+
+#screen td{
+    font-size: 100pt;
+    border-radius: 5px;
+    border: 2px solid white ;
+}
