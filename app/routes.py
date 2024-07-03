@@ -71,3 +71,7 @@ def select_user():
         }
     ]
     return render_template("select_user.html", title="Sign In", users=users)
+
+@app.route('/sign-in')
+def sign_in():
+    return "Sign in page"
