@@ -75,4 +75,8 @@ def select_user():
 
 @app.route('/sign_in/<username>')
 def sign_in(username):
-    return "Sign in page for " + username
+    joelle = {
+        "name": "Joelle",
+        "colour": "#0000FFA0"
+    }
+    return render_template("sign_in.html", title="Sign In", user=joelle)
