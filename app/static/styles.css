@@ -1,5 +1,5 @@
 body{
-	background-image: url("//<IP>:8080/background.jpg");
+	background-image: url("static/space_background.jpg");
 	background-color: black;
 	font-family: arial;
 	color: white;
@@ -71,7 +71,7 @@ footer{
 	text-align:center;
 	font-size: 3vh;
 	width: 40%;
-	background-color: <USER COLOUR>;
+	/*background-color: <USER COLOUR>;*/
 	border-radius: 2vw;
 }
 
@@ -86,5 +86,5 @@ footer{
 
 @font-face {
 	font-family: "Joff";
-	src: url("http://<IP>:8080/Joff.ttf");
+	src: url("static/Joff.ttf");
 }
