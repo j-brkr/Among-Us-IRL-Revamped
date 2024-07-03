@@ -70,7 +70,7 @@ def select_user():
             "colour": "#FF8EBAA0"
         }
     ]
-    return render_template("select_user.html", title="Sign In", users=users)
+    return render_template("select_user.html", title="Select User", users=users)
 
 @app.route('/sign-in')
 def sign_in():
