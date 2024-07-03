@@ -1,0 +1,90 @@
+body{
+	background-image: url("//<IP>:8080/background.jpg");
+	background-color: black;
+	font-family: arial;
+	color: white;
+	font-size: 100%;
+}
+
+ul li{
+	display:block;
+	list-style-type: none;
+	text-align: center;
+}
+
+a{
+	color: lightblue;
+}
+
+table a{
+	display: block;
+	color:white;
+	text-decoration:none;
+}
+
+h2{
+	font-size: 3vh;
+}
+
+footer{
+	bottom:0;
+	position:absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+}
+
+.title{
+	font-family: 'Joff';
+	font-size: 10vh;
+	text-align: center;
+	background-color: rgb(255 255 255 / 60%);
+	margin-bottom: 10px;
+    margin-top: 2vh;
+}
+
+.impList{
+	position: absolute;
+	top: 30%;
+	left: 0;
+	right: 0;
+	text-align: center;
+}
+
+.impList img{
+	width: 30%;
+}
+
+#menu TD{
+	width: 50vw;
+	font-size: 4vh;
+	color: white;
+	text-align:center;
+	border: 1vh solid black;
+	border-radius: 3vw;
+}
+
+#user{
+	margin: auto;
+	padding: 0.5vh;
+	text-align:center;
+	font-size: 3vh;
+	width: 40%;
+	background-color: <USER COLOUR>;
+	border-radius: 2vw;
+}
+
+#impCount{
+	position: absolute;
+	color: red;
+	font-size: 3.5vw;
+	margin: 0;
+	left: 39%;
+	top: 24.75%;
+}
+
+@font-face {
+	font-family: "Joff";
+	src: url("http://<IP>:8080/Joff.ttf");
+}
