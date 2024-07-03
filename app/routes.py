@@ -1,9 +1,13 @@
-from flask import render_template
+from flask import render_template, redirect, url_for
 from app import app
 
 @app.route('/')
 @app.route('/index')
 def index():
+    return redirect(url_for("select_user"))
+
+@app.route('/select_user')
+def select_user():
     users = [
         {
             "name": "Lisa",
@@ -66,4 +70,4 @@ def index():
             "colour": "#FF8EBAA0"
         }
     ]
-    return render_template("index.html", title="Sign In", users=users)
+    return render_template("select_user.html", title="Sign In", users=users)

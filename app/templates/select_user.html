@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-	<h1 class="title">Sign In</h1>
+	<h1 class="title">Select Player</h1>
 	<table style="margin-left:auto;margin-right:auto;" id="menu">
 		{% for user in users %}
 		<TR><TD style="background-color: {{ user.colour }}"><a href="waiting.html">{{ user.name }}</a></TD></TR>
