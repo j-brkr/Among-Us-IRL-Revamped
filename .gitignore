@@ -3,3 +3,4 @@ venv/
 Legacy/
 pycache/
 __pycache__/
+pyvenv.cfg
