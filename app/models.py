@@ -10,3 +10,23 @@ class User(db.Model):
 
     def __repr__(self):
         return "<User {}>".format(self.name)
+
+'''
+Plan
+
+User:
+- id
+- name
+- color
+- code
+- icon_src
+
+Task:
+- id
+- name
+- type
+- weight?
+
+GameLog (json)
+
+'''
