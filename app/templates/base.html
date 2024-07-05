@@ -12,6 +12,7 @@
 <body>
     {% block content %}{% endblock %}
 	<footer>
+		<!-- Derived from Flask docs -->
 		{% with messages = get_flashed_messages() %}
 			{% if messages %}
 			<ul class=flashes>
