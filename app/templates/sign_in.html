@@ -4,7 +4,10 @@
 	<link rel="stylesheet" href="/static/enter_id.css">
 	<h1 class="title">Sign In</h1>
 	<h2>Signing in as <span style="color: {{ user.color }}">{{ user.name }}</span></h2>
-	<div id="screen">
-	</div>
+	<form id="screen" method="post">
+		<div id="numpad"></div>
+		<div id="pin-box"></div>
+		<input id="pin" name="pin" type="hidden">
+	</form>
 	<script src="/static/enter_id.js"></script>
 {% endblock %}

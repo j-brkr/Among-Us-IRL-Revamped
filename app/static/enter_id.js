@@ -4,20 +4,14 @@ let pinDisplay = "";
 
 // When the document is loaded
 $( document ).ready(function() {
-    console.log( "ready!" );
     // Numpad
-    let numpad = $("<div></div>").attr("id", "numpad");
+    let numpad = $("#numpad");
     for(let i=0; i<12; i++){
         let cell = $("<div></div>").text(buttonText[i]).attr("class", "cell");
         cell.attr("id", "pin-"+buttonText[i]);
         cell.on( "click", buttonFunc(buttonText[i]));
         numpad.append(cell);
-        
     }
-    $('#screen').append(numpad);
-    // PIN Box
-    let pinBox = $("<div></div>").attr("id", "pin-box");
-    $('#screen').append(pinBox);
 });
 
 function appendPinbox(c){
@@ -43,11 +37,16 @@ function buttonFunc(name){
         }
     }else if(name === "✓"){
         return function submitNumber(){
-            alert(pinInput);
+            $('#pin').attr("value", pinInput);
+            $('form').submit();
         }
     }
 
     return function(){
         alert( "Handler for " + name + " called." );
     }
+}
+
+function submitPin(pin){
+    
 }
