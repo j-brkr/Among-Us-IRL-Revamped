@@ -4,3 +4,4 @@ Legacy/
 pycache/
 __pycache__/
 pyvenv.cfg
+app.db
