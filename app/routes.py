@@ -35,7 +35,7 @@ users = [
         "color": "#FF8EBAA0"
     },
     {
-        "name": "Sigh",
+        "name": "Pam",
         "color": "#FF8EBAA0"
     },
     {
