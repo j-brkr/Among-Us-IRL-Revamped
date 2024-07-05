@@ -28,12 +28,14 @@ def sign_in(username):
     if current_user.is_authenticated:
         return redirect(url_for('game'))
     
-    # STUB
-    joelle = {
-        "name": username,
-        "color": "#0000FF"
-    }
-    return render_template("sign_in.html", title="Sign In", user=joelle)
+    # Find user object and check it exists
+    user = db.session.scalar( 
+        sa.select(User).where(User.name == username))
+    if user is None:
+        flash('Invalid user')
+        return redirect(url_for('select_user'))
+    
+    return render_template("sign_in.html", title="Sign In", user=user)
 
 @app.post('/sign_in/<username>')
 def sign_in_post(username):
@@ -41,7 +43,7 @@ def sign_in_post(username):
     Handles POST requests to sign_in. 
     This runs when the PIN is submitted
     '''
-    # Get the corresponding user object and check it exists
+    # Find user object and check it exists
     user = db.session.scalar( 
         sa.select(User).where(User.name == username))
     if user is None:
