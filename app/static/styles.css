@@ -7,6 +7,12 @@ html, body{
 	height: 100%;
 }
 
+.flashes{
+	font-size: 3vh;
+	font-weight: bold;
+	color: pink;
+}
+
 ul li{
 	display:block;
 	list-style-type: none;
