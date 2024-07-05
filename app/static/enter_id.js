@@ -9,7 +9,7 @@ $( document ).ready(function() {
     for(let i=0; i<12; i++){
         let cell = $("<div></div>").text(buttonText[i]).attr("class", "cell");
         cell.attr("id", "pin-"+buttonText[i]);
-        cell.on( "click", buttonFunc(buttonText[i]));
+        cell.on( "click", pinpadClick(buttonText[i]));
         numpad.append(cell);
     }
 });
@@ -25,28 +25,30 @@ function appendPinbox(c){
     }
 }
 
-function buttonFunc(name){
-    if(!isNaN(parseInt(name))){ // If a digit
-        return appendPinbox(name);
+/**
+ * The callback functions for the pinpad
+ * @param {string} cellName the name of the button
+ * @returns 
+ */
+function pinpadClick(cellName){
+    if(!isNaN(cellName)){ // If a digit
+        return appendPinbox(cellName);
     }
-    else if(name === "X"){
+    else if(cellName === "X"){
         return function clearPinbox(){
             pinInput = "";
             pinDisplay = "";
             $('#pin-box').text(pinDisplay);
         }
-    }else if(name === "✓"){
+    }else if(cellName === "✓"){
         return function submitNumber(){
             $('#pin').attr("value", pinInput);
             $('form').submit();
         }
     }
 
+    // Default value, this should never run
     return function(){
-        alert( "Handler for " + name + " called." );
+        alert( "Handler for " + cellName + " called." );
     }
-}
-
-function submitPin(pin){
-    
 }
