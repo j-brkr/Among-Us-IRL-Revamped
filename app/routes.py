@@ -1,6 +1,6 @@
 from flask import flash, render_template, redirect, url_for, request
 from app import app
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 import sqlalchemy as sa
 from app import db
 from app.models import User
@@ -15,6 +15,10 @@ def select_user():
     '''
     User selection page
     '''
+    # Log out if already signed in
+    if current_user.is_authenticated:
+        logout_user()
+    
     users = db.session.scalars(sa.select(User)).all()
     return render_template("select_user.html", title="Select User", users=users)
 
