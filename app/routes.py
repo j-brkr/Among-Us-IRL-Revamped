@@ -12,15 +12,23 @@ def index():
 
 @app.route('/select_user')
 def select_user():
+    '''
+    User selection page
+    '''
     users = db.session.scalars(sa.select(User)).all()
     return render_template("select_user.html", title="Select User", users=users)
 
 # GET request
 @app.get('/sign_in/<username>')
 def sign_in(username):
+    '''
+    Sign in page
+    '''
+    # Redirect if already signed in
     if current_user.is_authenticated:
         return redirect(url_for('game'))
     
+    # STUB
     joelle = {
         "name": username,
         "color": "#0000FF"
@@ -29,12 +37,18 @@ def sign_in(username):
 
 @app.post('/sign_in/<username>')
 def sign_in_post(username):
-    key, value = request.get_data(as_text=True).split("=")
+    '''
+    Handles POST requests to sign_in. 
+    This runs when the PIN is submitted
+    '''
+    # Get the corresponding user object and check it exists
     user = db.session.scalar( 
         sa.select(User).where(User.name == username))
     if user is None:
         flash('Invalid user')
         return redirect(url_for('select_user'))
+    # Get the pin and check it is correct
+    key, value = request.get_data(as_text=True).split("=")
     if not user.check_pin(value):
         flash('Incorrect PIN')
         return redirect(url_for('sign_in', username=username))
@@ -43,5 +57,9 @@ def sign_in_post(username):
 
 @app.route('/game')
 def game():
+    '''
+    The webpage once logged in.
+    Used for the lobby and when the game is being played
+    '''
     return "Game page"
         
