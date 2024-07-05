@@ -13,6 +13,9 @@ class User(UserMixin, db.Model):
     color: so.Mapped[str] = so.mapped_column(sa.String(7))
     pin: so.Mapped[str] = so.mapped_column(sa.String(4))
 
+    def check_pin(self, pin):
+        return self.pin == pin
+
     def __repr__(self):
         return "<User {}>".format(self.name)
 
