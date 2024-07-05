@@ -1,14 +1,53 @@
 #screen{
-    display: flex;
-    justify-content: center;
+    display: grid;
+    justify-items: center;
     align-items: center;
     max-width: 80%;
+    height: 50%;
     margin: auto;
     background-color: #55b472;
+    border: 0.4vh solid grey;
+    border-radius: 3%;
 }
 
-#screen td{
-    font-size: 100pt;
-    border-radius: 5px;
-    border: 2px solid white ;
+#numpad{
+    display: grid;
+    justify-content: center;
+    align-items: space-evenly;
+    grid-template-columns: auto auto auto;
+    column-gap: 5%;
+    row-gap: 2%;
+}
+
+.cell, #pin-box{
+    border-radius: 0.6vh;
+    border: 0.4vh solid white ;
+}
+
+.cell{
+    font-size: 6vh;
+    font-family: Joff;
+    background-color: #acd3b5;
+    width: 1.1em;
+    height: 1.1em;
+    text-align: center;
+}
+
+#pin-X{
+    background-color: #ce8c90;
+}
+
+#pin-✓{
+    background-color: #3f7742;
+    font-size: 5vh;
+    width: 1.32em;
+    height: 1.32em;
+}
+
+#pin-box{
+    background-color: #6fbd8b;
+    width: 4ch;
+    height: 1em;
+    font-size: 8vh;
+    text-align: center;
 }
