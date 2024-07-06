@@ -34,6 +34,11 @@ Task:
 - name
 - type
 - weight?
+- room_id (fk)
+
+Room:
+- id
+- name
 
 GameLog (json)
 
