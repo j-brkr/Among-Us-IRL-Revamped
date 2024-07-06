@@ -4,6 +4,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
 from app.models import User
+from app.forms import settingsForm
 
 @app.route('/')
 @app.route('/index')
@@ -86,7 +87,8 @@ def settings():
     Settings page for Central.
     Adjust settings then click start game
     '''
-    return render_template("settings.html")
+    form = settingsForm()
+    return render_template("settings.html", form=form)
 
 @app.route('/central-game')
 def central_game():

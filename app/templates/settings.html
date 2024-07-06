@@ -5,8 +5,13 @@
     </head>
     <body>
         <h1>Settings</h1>
-        <form>
-            
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form[:1] %}
+                {{ field.label }}
+                {{ field}}
+                <br>
+            {% endfor %}
         </form>
     </body>
 </html>
