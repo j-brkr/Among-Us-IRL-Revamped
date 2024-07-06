@@ -77,17 +77,20 @@ def game():
 def central():
     '''
     Start page for Central.
-    Option to start new game or connect to existing game
+    Option to start new game (settings) or connect to existing game
     '''
     return render_template("central.html")
 
-@app.route('/settings')
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
     '''
-    Settings page for Central.
-    Adjust settings then click start game
+    Settings page
+    Adjust settings and start games
     '''
     form = settingsForm()
+    if form.validate_on_submit():
+        flash(str(form))
+        return redirect(url_for('central_game'))
     return render_template("settings.html", form=form)
 
 @app.route('/central-game')
