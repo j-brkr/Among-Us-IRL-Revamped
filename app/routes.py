@@ -1,6 +1,6 @@
 from flask import flash, render_template, redirect, url_for, request
 from app import app
-from flask_login import current_user, login_user, logout_user
+from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db
 from app.models import User
@@ -62,10 +62,52 @@ def sign_in_post(username):
     return redirect(url_for('game'))
 
 @app.route('/game')
+@login_required
 def game():
     '''
     The webpage once logged in.
     Used for the lobby and when the game is being played
     '''
     return "Game page"
-        
+
+@app.route('/interfaces/central')
+def central():
+    '''
+    Webpage for Central.
+    Shows settings and emergency meetings
+    '''
+    return "Central Interface"
+
+@app.route('/interfaces/security')
+def security():
+    '''
+    Webpage for the Security.
+    Shows tasks and cameras
+    '''
+    return "Security Interface"
+
+@app.route('/interfaces/communications')
+def communications():
+    '''
+    Webpage for the Communcations.
+    Shows tasks and comms sabotage fix
+    '''
+    return "Comms Interface"
+
+@app.route('/interfaces/electrical')
+def admin():
+    '''
+    Webpage for Electrical.
+    Shows tasks and lights sabotage fix
+    '''
+    return "Electrical Interface"
+
+@app.route('/interfaces/reactor')
+def reactor():
+    '''
+    The webpage for Reactor.
+    This Interface shows tasks and an emergency sabotage fix
+    '''
+    return "Reactor Interface"
+
+
