@@ -71,15 +71,15 @@ def game():
     '''
     return "Game page"
 
-# Central
+# Gamemaster
 
-@app.route('/central')
-def central():
+@app.route('/directories')
+def directories():
     '''
-    Start page for Central.
-    Option to start new game (settings) or connect to existing game
+    A directory page
+    Shows directories for different machines and interfaces
     '''
-    return render_template("central.html")
+    return render_template("directories.html")
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
@@ -90,16 +90,18 @@ def settings():
     form = settingsForm()
     if form.validate_on_submit():
         flash(str(form))
-        return redirect(url_for('central_game'))
+        return redirect(url_for('central'))
     return render_template("settings.html", form=form)
 
-@app.route('/central-game')
-def central_game():
+# Central
+
+@app.route('/central')
+def central():
     '''
     Games page for Central.
     Shows emergency meeting button, voting screen and winner
     '''
-    return render_template("central-game.html")
+    return render_template("central.html")
 
 # Interfaces
 
