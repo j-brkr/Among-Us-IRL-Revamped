@@ -52,18 +52,22 @@ footer{
 
 .impList img{
 	width: 30%;
-}
+}*/
 
 #menu TD{
 	width: 50vw;
 	font-size: 4vh;
-	color: white;
 	text-align:center;
 	border: 1vh solid black;
 	border-radius: 3vw;
 }
 
-#user{
+#menu a{
+	color: white;
+	text-decoration: none;
+}
+
+/*#user{
 	margin: auto;
 	padding: 0.5vh;
 	text-align:center;
