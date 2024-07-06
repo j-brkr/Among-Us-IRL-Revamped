@@ -2,7 +2,7 @@ from flask import flash, render_template, redirect, url_for, request
 from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
-from app import db
+from app import db, interfaces
 from app.models import User
 
 @app.route('/')
@@ -65,49 +65,22 @@ def sign_in_post(username):
 @login_required
 def game():
     '''
-    The webpage once logged in.
+    The webpage for users once logged in.
     Used for the lobby and when the game is being played
     '''
     return "Game page"
 
-@app.route('/interfaces/central')
+@app.route('/interfaces/<path:path>')
+def interface_route(path):
+    if path == 'Central':
+        return interfaces.central()
+    if path in interfaces.route.keys():
+        return interfaces.route[path]()
+    return "Interface " + path + " does not exists"
+
 def central():
     '''
     Webpage for Central.
     Shows settings and emergency meetings
     '''
     return "Central Interface"
-
-@app.route('/interfaces/security')
-def security():
-    '''
-    Webpage for the Security.
-    Shows tasks and cameras
-    '''
-    return "Security Interface"
-
-@app.route('/interfaces/communications')
-def communications():
-    '''
-    Webpage for the Communcations.
-    Shows tasks and comms sabotage fix
-    '''
-    return "Comms Interface"
-
-@app.route('/interfaces/electrical')
-def admin():
-    '''
-    Webpage for Electrical.
-    Shows tasks and lights sabotage fix
-    '''
-    return "Electrical Interface"
-
-@app.route('/interfaces/reactor')
-def reactor():
-    '''
-    The webpage for Reactor.
-    This Interface shows tasks and an emergency sabotage fix
-    '''
-    return "Reactor Interface"
-
-
