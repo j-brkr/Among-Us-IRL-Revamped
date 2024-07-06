@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Among Us IRL - Settings</title>
-    </head>
-    <body>
-        <h1>Settings</h1>
-        <form action="" method="POST">
-            {{ form.hidden_tag() }}
-            {% for field in form[:1] %}
-                {{ field.label }}
-                {{ field}}
-                <br>
-            {% endfor %}
-        </form>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Settings</h1>
+    <form action="" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.imposter_count.label }} {{ form.imposter_count(min = 1, max = 10) }}<br>
+        {{ form.reveal_role.label }} {{ form.reveal_role }}<br>
+        {{ form.emergency_meetings.label }} {{ form.emergency_meetings(min = 0, max = 10) }}<br>
+        {{ form.discussion_time.label }} {{ form.discussion_time }}<br>
+        {{ form.emergency_cooldown.label }} {{ form.emergency_cooldown }}<br>
+        {{ form.kill_cooldown.label }} {{ form.kill_cooldown }}<br>
+        {{ form.short_tasks.label }} {{ form.short_tasks(min = 1, max = 10) }}<br>
+        {{ form.long_tasks.label }} {{ form.long_tasks(min = 0, max = 10) }}<br>
+        {{ form.common_tasks.label }} {{ form.common_tasks(min = 0, max = 3) }}<br>
+        <br>
+        <br>
+        {{ form.submit() }}<br>
+        
+    </form>
+{% endblock %}
