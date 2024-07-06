@@ -19,12 +19,6 @@ ul li{
 	text-align: center;
 }
 
-table a{
-	display: block;
-	color:white;
-	text-decoration:none;
-}
-
 h2{
 	font-size: 3vh;
 }
@@ -47,6 +41,7 @@ footer{
     margin-top: 2vh;
 }
 
+/*
 .impList{
 	position: absolute;
 	top: 30%;
@@ -74,9 +69,10 @@ footer{
 	text-align:center;
 	font-size: 3vh;
 	width: 40%;
-	/*background-color: <USER COLOUR>;*/
+	//background-color: <USER COLOUR>;
 	border-radius: 2vw;
 }
+
 
 #impCount{
 	position: absolute;
@@ -85,7 +81,7 @@ footer{
 	margin: 0;
 	left: 39%;
 	top: 24.75%;
-}
+}*/
 
 @font-face {
 	font-family: "Joff";
