@@ -70,17 +70,36 @@ def game():
     '''
     return "Game page"
 
+# Central
+
+@app.route('/central')
+def central():
+    '''
+    Start page for Central.
+    Option to start new game or connect to existing game
+    '''
+    return render_template("central.html")
+
+@app.route('/settings')
+def settings():
+    '''
+    Settings page for Central.
+    Adjust settings then click start game
+    '''
+    return render_template("settings.html")
+
+@app.route('/central-game')
+def central_game():
+    '''
+    Games page for Central.
+    Shows emergency meeting button, voting screen and winner
+    '''
+    return render_template("central-game.html")
+
+# Interfaces
+
 @app.route('/interfaces/<path:path>')
 def interface_route(path):
-    if path == 'Central':
-        return interfaces.central()
     if path in interfaces.route.keys():
         return interfaces.route[path]()
     return "Interface " + path + " does not exists"
-
-def central():
-    '''
-    Webpage for Central.
-    Shows settings and emergency meetings
-    '''
-    return "Central Interface"
