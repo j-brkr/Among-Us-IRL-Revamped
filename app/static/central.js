@@ -30,6 +30,6 @@ function changePage(status){
         default:
             console.log("Status " + status + " not recognized");
             break;
-}
+    }
 }
 
