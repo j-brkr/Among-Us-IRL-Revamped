@@ -143,9 +143,9 @@ def api(path, methods=['GET', 'POST']):
     print("API Request: " + path)
     if path=="game":
         active_game = db.session.scalar(sa.select(Game).where(Game.active))
-        if active_game is None:
-            return "No active game running", 404
+        if active_game is None: return "No active game running", 404
         response = json.dumps(active_game.as_dict())
         return response
+        
     return "The resource {} could not be found".format(path)
 
