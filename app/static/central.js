@@ -1,7 +1,6 @@
 
 $( document ).ready(function(){
-    $.get( "/api/game", function(data){
-        let game = JSON.parse(data);
+    $.get( "/api/game", function(game){
         console.log(game);
         changePage(game["status"]);
 
@@ -18,6 +17,7 @@ function changePage(status){
         case "LOBBY":
             $( "#lobby" ).css("display", "block");
             $( "body" ).css("background-color", "black");
+            updateLobby();
             break;
         case "GAME":
             $( "#emergencyButton" ).css("display", "block");
@@ -31,5 +31,21 @@ function changePage(status){
             console.log("Status " + status + " not recognized");
             break;
     }
+}
+
+function updateLobby(status){
+    $.get("/api/game/players", function(players){
+        console.log(players);
+        // Player List
+        $( "#playerList" ).empty();
+        players.forEach(function(player){
+            let playerDisplay = $( '<div class="player"></div>' )
+                .text(player["user"]["name"])
+                .css("background-color", player["user"]["color"] + "A0");
+            $( "#playerList" ).append(playerDisplay)
+        })
+        // Start Game Button
+        $( '#startGame' ).prop("disabled", players.length < 6);
+    })
 }
 
