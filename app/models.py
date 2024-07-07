@@ -36,8 +36,24 @@ class Game(db.Model):
     long_tasks: so.Mapped[int]
     common_tasks: so.Mapped[int]
 
+    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
+
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return "<Game {} {}>".format(self.id, ("Active" if self.active else ""))
+
+class Player(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    alive: so.Mapped[bool] = so.mapped_column(default=True)
+    role: so.Mapped[int] = so.mapped_column(default=0)
+    # NONE = 0, CREW = 1, IMPOSTER = -1
+    cooldown: so.Mapped[int] = so.mapped_column(default=0)
+
+    game_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id))
+
+    game: so.Mapped[Game] = so.relationship(back_populates='players')
+
+
