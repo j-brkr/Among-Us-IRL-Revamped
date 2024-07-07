@@ -13,8 +13,13 @@ class User(UserMixin, db.Model):
     color: so.Mapped[str] = so.mapped_column(sa.String(7))
     pin: so.Mapped[str] = so.mapped_column(sa.String(6))
 
+    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
+
     def check_pin(self, pin):
         return self.pin == pin
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return "<User {}>".format(self.name)
@@ -55,5 +60,9 @@ class Player(db.Model):
     user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id))
 
     game: so.Mapped[Game] = so.relationship(back_populates='players')
+    user: so.Mapped[User] = so.relationship(back_populates='players')
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
