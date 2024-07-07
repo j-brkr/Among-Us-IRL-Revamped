@@ -3,7 +3,7 @@ from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
-from app.models import User
+from app.models import User, Game
 from app.forms import settingsForm
 
 @app.route('/')
@@ -62,14 +62,14 @@ def sign_in_post(username):
     login_user(user, remember=True)
     return redirect(url_for('game'))
 
-@app.route('/game')
+@app.route('/player')
 @login_required
-def game():
+def player():
     '''
     The webpage for users once logged in.
     Used for the lobby and when the game is being played
     '''
-    return "Game page"
+    return "Player Game page"
 
 # Gamemaster
 
@@ -89,7 +89,30 @@ def settings():
     '''
     form = settingsForm()
     if form.validate_on_submit():
-        flash(str(form))
+        # Check no running game
+        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        if active_game is not None:
+            print("GAME "+active_game+" already running!")
+            flash("Game in progress")
+            return redirect(url_for('settings'))
+        
+        # Make new game object
+        game = Game(
+            active=True,
+            status="LOBBY",
+            imposter_count=form.imposter_count.data,
+            reveal_role=form.reveal_role.data,
+            emergency_meetings=form.emergency_meetings.data,
+            discussion_time=form.discussion_time.data,
+            emergency_cooldown=form.emergency_cooldown.data,
+            kill_cooldown=form.kill_cooldown.data,
+            short_tasks=form.short_tasks.data,
+            long_tasks=form.long_tasks.data,
+            common_tasks=form.common_tasks.data
+        )
+        db.session.add(game)
+        db.session.commit()
+        
         return redirect(url_for('central'))
     return render_template("settings.html", form=form)
 

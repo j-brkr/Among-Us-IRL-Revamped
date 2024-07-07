@@ -23,8 +23,8 @@ class Game(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     active: so.Mapped[bool]
     status: so.Mapped[str] = so.mapped_column(sa.String(32))
-    time_started: so.Mapped[int]
-    time_finished: so.Mapped[int]
+    time_started: so.Mapped[int] = so.mapped_column(sa.Integer(), default=0)
+    time_finished: so.Mapped[int] = so.mapped_column(sa.Integer(), default=0)
 
     imposter_count: so.Mapped[int]
     reveal_role: so.Mapped[bool]
