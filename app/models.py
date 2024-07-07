@@ -63,6 +63,9 @@ class Player(db.Model):
     user: so.Mapped[User] = so.relationship(back_populates='players')
 
     def as_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        user_dict = self.user.as_dict()
+        player_dict = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        player_dict['user'] = user_dict
+        return player_dict
 
 

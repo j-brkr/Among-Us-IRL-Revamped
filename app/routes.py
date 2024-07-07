@@ -141,11 +141,23 @@ def interface_route(path):
 @app.route("/api/<path:path>")
 def api(path, methods=['GET', 'POST']):
     print("API Request: " + path)
-    if path=="game":
+    path_parts = path.split("/")
+    # relates to current game
+    if path_parts[0]=="game":
+        # Get the current game and return 404 on failure
         active_game = db.session.scalar(sa.select(Game).where(Game.active))
         if active_game is None: return "No active game running", 404
-        response = json.dumps(active_game.as_dict())
-        return response
+
+        if len(path_parts) == 1:
+            # Game object
+            response = active_game.as_dict()
+            return response
+        elif path_parts[1] == "players":
+            # Player array
+            players = db.session.scalars(active_game.players.select()).all()
+            response = [player.as_dict() for player in players]
+            return response
+
         
     return "The resource {} could not be found".format(path)
 
