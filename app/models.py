@@ -36,5 +36,8 @@ class Game(db.Model):
     long_tasks: so.Mapped[int]
     common_tasks: so.Mapped[int]
 
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
     def __repr__(self):
         return "<Game {} {}>".format(self.id, ("Active" if self.active else ""))

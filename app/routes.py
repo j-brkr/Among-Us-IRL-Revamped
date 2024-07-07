@@ -6,6 +6,8 @@ from app import db, interfaces
 from app.models import User, Game
 from app.forms import settingsForm
 
+import json
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -133,3 +135,17 @@ def interface_route(path):
     if path in interfaces.route.keys():
         return interfaces.route[path]()
     return "Interface " + path + " does not exists"
+
+# Game API
+
+@app.route("/api/<path:path>")
+def api(path, methods=['GET', 'POST']):
+    print("API Request: " + path)
+    if path=="game":
+        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        if active_game is None:
+            return "No active game running", 404
+        response = json.dumps(active_game.as_dict())
+        return response
+    return "The resource {} could not be found".format(path)
+
