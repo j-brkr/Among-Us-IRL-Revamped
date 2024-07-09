@@ -1,9 +1,10 @@
 
 $( document ).ready(function(){
-    setInterval(updateStatus, 1000);
+    updatePage();
+    setInterval(updatePage, 1000);
 });
 
-function updateStatus(){
+function updatePage(){
     $.get( "/api/game", function(game){
         console.log(game);
         loadPage(game["status"]);
