@@ -1,7 +1,7 @@
 $( document ).ready(function(){
     $.get( "/api/game", function(game){
         console.log(game);
-        changePage(game["status"]);
+        loadPage(game["status"]);
 
     })
     .fail(function(){
@@ -31,7 +31,7 @@ const pages={
     "MEETING": meeting_page
 }
 
-function changePage(status){
+function loadPage(status){
     $( ".page" ).css("display", "none");
     let page = pages[status];
     $( 'title' ).text("Among Us IRL - " + page.title)

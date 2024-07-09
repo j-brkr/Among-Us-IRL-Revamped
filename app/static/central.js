@@ -6,7 +6,7 @@ $( document ).ready(function(){
 function updateStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
-        changePage(game["status"]);
+        loadPage(game["status"]);
 
     })
     .fail(function(){
@@ -15,26 +15,10 @@ function updateStatus(){
     });
 }
 
-function changePage(status){
-    $( ".page" ).css("display", "none");
-    switch(status) {
-        case "LOBBY":
-            $( "#lobby" ).css("display", "block");
-            $( "body" ).css("background-color", "black");
-            updateLobby();
-            break;
-        case "GAME":
-            $( "#emergencyButton" ).css("display", "block");
-            $( "body" ).css("background-color", "blue");
-            break;
-        case "MEETING":
-            $( "#voting" ).css("display", "block");
-            $( "body" ).css("background-color", "blue");
-            break;
-        default:
-            console.log("Status " + status + " not recognized");
-            break;
-    }
+const lobby_page = {
+    selector: "#lobby",
+    backgroundColor: "black",
+    update: updateLobby
 }
 
 function updateLobby(status){
@@ -52,4 +36,30 @@ function updateLobby(status){
         $( '#startGame' ).text("Start Game ("+players.length+" "+(players.length==1?"player":"players")+")").prop("disabled", players.length < 5);
     })
 }
+
+const game_page = {
+    selector: "#game",
+    backgroundColor: "blue"
+}
+
+const meeting_page = {
+    selector: "#voting",
+    backgroundColor: "blue"
+}
+
+const pages={
+    "LOBBY": lobby_page,
+    "GAME": game_page,
+    "MEETING": meeting_page
+}
+
+function loadPage(status){
+    $( ".page" ).css("display", "none");
+    let page = pages[status];
+    $( page.selector ).css("display", "block");
+    $( "body" ).css("background-color", page.backgroundColor);
+    page.update();
+}
+
+
 
