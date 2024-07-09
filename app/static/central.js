@@ -23,7 +23,7 @@ function changePage(status){
             $( "#emergencyButton" ).css("display", "block");
             $( "body" ).css("background-color", "blue");
             break;
-        case "VOTING":
+        case "MEETING":
             $( "#voting" ).css("display", "block");
             $( "body" ).css("background-color", "blue");
             break;
