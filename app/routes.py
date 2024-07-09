@@ -162,7 +162,6 @@ def interface_route(path):
 
 @app.route("/api/<path:path>")
 def api(path, methods=['GET', 'POST']):
-    print("API Request: " + path)
     path_parts = path.split("/")
     # relates to current game
     if path_parts[0]=="game":
