@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <script src="/static/player.js"></script>
+    <div class="page" id="lobby">
+        <h1 class="title">Lobby</h1>
+		<h2 style="text-align:center">You are signed in as: <span style="color:{{ user.color}}">{{ user.name }}</span></h2>
+		<!-- <footer><h2 style="text-align:center;font-size: 2vh;">If the game does not start automatically, click <a href="start.html-<UID>">here</a></h2></footer> -->
+    </div>
+    <div class="page" id="game">
+        
+    </div>
+    <div class="page" id="meeting">
+        
+    </div>
+{% endblock %}

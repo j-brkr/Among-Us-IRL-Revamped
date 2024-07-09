@@ -93,7 +93,7 @@ def player():
         db.session.add(player)
         db.session.commit()
 
-    return "Player Game page for " + current_user.name + " " + str(player.as_dict())
+    return render_template("player.html", title="Player", user=current_user)
 
 # Gamemaster
 
