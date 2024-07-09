@@ -1,5 +1,9 @@
 
 $( document ).ready(function(){
+    setInterval(updateStatus, 1000);
+});
+
+function updateStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
         changePage(game["status"]);
@@ -9,7 +13,7 @@ $( document ).ready(function(){
         console.log("GET Failed")
         document.write("GET Failed. Maybe there is no active game")
     });
-})
+}
 
 function changePage(status){
     $( ".page" ).css("display", "none");
