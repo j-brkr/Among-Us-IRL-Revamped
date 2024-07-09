@@ -49,7 +49,7 @@ function updateLobby(status){
             $( "#playerList" ).append(playerDisplay)
         })
         // Start Game Button
-        $( '#startGame' ).text("Start Game ("+players.length+" "+(players.length==1?"player":"players")+")").prop("disabled", players.length < 6);
+        $( '#startGame' ).text("Start Game ("+players.length+" "+(players.length==1?"player":"players")+")").prop("disabled", players.length < 5);
     })
 }
 
