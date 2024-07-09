@@ -1,0 +1,41 @@
+html, body{
+    height: 90%;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+}
+
+h1{
+    text-align: center;
+}
+
+.page{
+    display: none;
+    /*width: 100%;
+    height: 100%;*/
+}
+
+#lobby{
+    color: lightgrey
+}
+
+#lobby #startGame{
+    display: block;
+    position: fixed;
+    right: 10%;
+    bottom: 10%;
+    width: 20%;
+    height: 10%
+}
+
+#lobby #playerList{
+    display: flex;
+    flex-direction: column;
+}
+
+#lobby .player{
+    color: white;
+    width: 300px;
+    font-size: x-large;
+    text-align: center;
+}
+

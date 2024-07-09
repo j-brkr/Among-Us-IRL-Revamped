@@ -1,4 +1,8 @@
-html, body{
+html{
+	height: 90vh;
+}
+
+body{
 	background-image: url("background.jpg");
 	background-color: black;
 	font-family: arial;
@@ -12,6 +16,20 @@ html, body{
 	font-weight: bold;
 	color: pink;
 }
+
+.page{
+	display: none;
+}
+
+.title{
+	font-family: 'Joff';
+	font-size: 10vh;
+	text-align: center;
+	background-color: rgb(255 255 255 / 60%);
+	margin-bottom: 5px;
+    margin-top: 5px;
+}
+
 
 ul li{
 	display:block;
@@ -32,14 +50,7 @@ footer{
 	right: 0;
 }
 
-.title{
-	font-family: 'Joff';
-	font-size: 10vh;
-	text-align: center;
-	background-color: rgb(255 255 255 / 60%);
-	margin-bottom: 10px;
-    margin-top: 2vh;
-}
+
 
 /*
 .impList{

@@ -3,8 +3,10 @@ from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
-from app.models import User
+from app.models import User, Game, Player
 from app.forms import settingsForm
+
+import json
 
 @app.route('/')
 @app.route('/index')
@@ -31,7 +33,7 @@ def sign_in(username):
     '''
     # Redirect if already signed in
     if current_user.is_authenticated:
-        return redirect(url_for('game'))
+        return redirect(url_for('player'))
     
     # Find user object and check it exists
     user = db.session.scalar( 
@@ -54,22 +56,44 @@ def sign_in_post(username):
     if user is None:
         flash('Invalid user')
         return redirect(url_for('select_user'))
+    
     # Get the pin and check it is correct
     key, value = request.get_data(as_text=True).split("=")
     if not user.check_pin(value):
         flash('Incorrect PIN')
         return redirect(url_for('sign_in', username=username))
+    
+    # Get current game
+    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    if active_game is None:
+        flash('No active game')
+        return redirect(url_for('sign_in', username=username))
+    
     login_user(user, remember=True)
-    return redirect(url_for('game'))
 
-@app.route('/game')
+    return redirect(url_for('player'))
+
+@app.route('/player')
 @login_required
-def game():
+def player():
     '''
     The webpage for users once logged in.
     Used for the lobby and when the game is being played
     '''
-    return "Game page"
+    
+    # Get current game
+    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    if active_game is None:
+        return "No active game. Wait for settings to be submitted, then refresh the page"
+    
+    # Create a player if not already existant
+    player = active_game.player_of_user(current_user)
+    if player is None:
+        player = Player(game_id = active_game.id, user_id = current_user.id)
+        db.session.add(player)
+        db.session.commit()
+
+    return render_template("player.html", title="Player", user=current_user)
 
 # Gamemaster
 
@@ -89,7 +113,30 @@ def settings():
     '''
     form = settingsForm()
     if form.validate_on_submit():
-        flash(str(form))
+        # Check no running game
+        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        if active_game is not None:
+            print("GAME "+active_game+" already running!")
+            flash("Game in progress")
+            return redirect(url_for('settings'))
+        
+        # Make new game object
+        game = Game(
+            active=True,
+            status="LOBBY",
+            imposter_count=form.imposter_count.data,
+            reveal_role=form.reveal_role.data,
+            emergency_meetings=form.emergency_meetings.data,
+            discussion_time=form.discussion_time.data,
+            emergency_cooldown=form.emergency_cooldown.data,
+            kill_cooldown=form.kill_cooldown.data,
+            short_tasks=form.short_tasks.data,
+            long_tasks=form.long_tasks.data,
+            common_tasks=form.common_tasks.data
+        )
+        db.session.add(game)
+        db.session.commit()
+        
         return redirect(url_for('central'))
     return render_template("settings.html", form=form)
 
@@ -110,3 +157,28 @@ def interface_route(path):
     if path in interfaces.route.keys():
         return interfaces.route[path]()
     return "Interface " + path + " does not exists"
+
+# Game API
+
+@app.route("/api/<path:path>")
+def api(path, methods=['GET', 'POST']):
+    path_parts = path.split("/")
+    # relates to current game
+    if path_parts[0]=="game":
+        # Get the current game and return 404 on failure
+        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        if active_game is None: return "No active game running", 404
+
+        if len(path_parts) == 1:
+            # Game object
+            response = active_game.as_dict()
+            return response
+        elif path_parts[1] == "players":
+            # Player array
+            players = db.session.scalars(active_game.players.select()).all()
+            response = [player.as_dict() for player in players]
+            return response
+
+        
+    return "The resource {} could not be found".format(path)
+

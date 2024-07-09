@@ -11,35 +11,66 @@ class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32))
     color: so.Mapped[str] = so.mapped_column(sa.String(7))
-    pin: so.Mapped[str] = so.mapped_column(sa.String(4))
+    pin: so.Mapped[str] = so.mapped_column(sa.String(6))
+
+    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
 
     def check_pin(self, pin):
         return self.pin == pin
+    
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return "<User {}>".format(self.name)
+    
+class Game(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    active: so.Mapped[bool]
+    status: so.Mapped[str] = so.mapped_column(sa.String(32))
+    time_started: so.Mapped[int] = so.mapped_column(sa.Integer(), default=0)
+    time_finished: so.Mapped[int] = so.mapped_column(sa.Integer(), default=0)
 
-'''
-Plan
+    imposter_count: so.Mapped[int]
+    reveal_role: so.Mapped[bool]
+    emergency_meetings: so.Mapped[int]
+    discussion_time: so.Mapped[int]
+    emergency_cooldown: so.Mapped[int]
+    kill_cooldown: so.Mapped[int]
+    short_tasks: so.Mapped[int]
+    long_tasks: so.Mapped[int]
+    common_tasks: so.Mapped[int]
 
-User:
-- id
-- name
-- color
-- pin
-- icon_src
+    players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
-Task:
-- id
-- name
-- type
-- weight?
-- room_id (fk)
+    def player_of_user(self, user):
+        player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
+        return player
 
-Room:
-- id
-- name
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-GameLog (json)
+    def __repr__(self):
+        return "<Game {} {}>".format(self.id, ("Active" if self.active else ""))
+    
 
-'''
+class Player(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    alive: so.Mapped[bool] = so.mapped_column(default=True)
+    role: so.Mapped[int] = so.mapped_column(default=0)
+    # NONE = 0, CREW = 1, IMPOSTER = -1
+    cooldown: so.Mapped[int] = so.mapped_column(default=0)
+
+    game_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(User.id))
+
+    game: so.Mapped[Game] = so.relationship(back_populates='players')
+    user: so.Mapped[User] = so.relationship(back_populates='players')
+
+    def as_dict(self):
+        user_dict = self.user.as_dict()
+        player_dict = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        player_dict['user'] = user_dict
+        return player_dict
+
+
