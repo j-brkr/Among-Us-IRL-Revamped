@@ -44,7 +44,7 @@ class Game(db.Model):
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
     def player_of_user(self, user):
-        player = db.session.scalar(sa.select(Player).where(Player.game_id == self.id and Player.user_id == user.id))
+        player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
         return player
 
     def as_dict(self):
