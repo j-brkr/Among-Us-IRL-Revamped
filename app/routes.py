@@ -3,7 +3,7 @@ from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
-from app.models import User, Game
+from app.models import User, Game, Player
 from app.forms import settingsForm
 
 import json
@@ -33,7 +33,7 @@ def sign_in(username):
     '''
     # Redirect if already signed in
     if current_user.is_authenticated:
-        return redirect(url_for('game'))
+        return redirect(url_for('player'))
     
     # Find user object and check it exists
     user = db.session.scalar( 
@@ -56,13 +56,22 @@ def sign_in_post(username):
     if user is None:
         flash('Invalid user')
         return redirect(url_for('select_user'))
+    
     # Get the pin and check it is correct
     key, value = request.get_data(as_text=True).split("=")
     if not user.check_pin(value):
         flash('Incorrect PIN')
         return redirect(url_for('sign_in', username=username))
+    
+    # Get current game
+    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    if active_game is None:
+        flash('No active game')
+        return redirect(url_for('sign_in', username=username))
+    
     login_user(user, remember=True)
-    return redirect(url_for('game'))
+
+    return redirect(url_for('player'))
 
 @app.route('/player')
 @login_required
@@ -71,7 +80,20 @@ def player():
     The webpage for users once logged in.
     Used for the lobby and when the game is being played
     '''
-    return "Player Game page"
+    
+    # Get current game
+    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    if active_game is None:
+        return "No active game. Wait for settings to be submitted, then refresh the page"
+    
+    # Create a player if not already existant
+    player = active_game.player_of_user(current_user)
+    if player is None:
+        player = Player(game_id = active_game.id, user_id = current_user.id)
+        db.session.add(player)
+        db.session.commit()
+
+    return "Player Game page for " + current_user.name + " " + str(player.as_dict())
 
 # Gamemaster
 

@@ -43,11 +43,16 @@ class Game(db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
+    def player_of_user(self, user):
+        player = db.session.scalar(sa.select(Player).where(Player.game_id == self.id and Player.user_id == user.id))
+        return player
+
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def __repr__(self):
         return "<Game {} {}>".format(self.id, ("Active" if self.active else ""))
+    
 
 class Player(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
