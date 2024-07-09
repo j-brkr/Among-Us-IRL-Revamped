@@ -28,6 +28,7 @@ h1{
 
 #lobby #playerList{
     display: flex;
+    flex-direction: column;
 }
 
 #lobby .player{
