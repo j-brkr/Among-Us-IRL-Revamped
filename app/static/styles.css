@@ -17,6 +17,20 @@ body{
 	color: pink;
 }
 
+.page{
+	display: none;
+}
+
+.title{
+	font-family: 'Joff';
+	font-size: 10vh;
+	text-align: center;
+	background-color: rgb(255 255 255 / 60%);
+	margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+
 ul li{
 	display:block;
 	list-style-type: none;
@@ -36,14 +50,7 @@ footer{
 	right: 0;
 }
 
-.title{
-	font-family: 'Joff';
-	font-size: 10vh;
-	text-align: center;
-	background-color: rgb(255 255 255 / 60%);
-	margin-bottom: 5px;
-    margin-top: 5px;
-}
+
 
 /*
 .impList{
