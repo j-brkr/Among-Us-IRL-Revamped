@@ -82,6 +82,8 @@ class Player(db.Model):
     game: so.Mapped[Game] = so.relationship(back_populates='players')
     user: so.Mapped[User] = so.relationship(back_populates='players')
 
+    player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='players')
+
     def as_dict(self):
         user_dict = self.user.as_dict()
         player_dict = {c.name: getattr(self, c.name) for c in self.__table__.columns}
@@ -97,8 +99,25 @@ class Room(db.Model):
 class Task(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32))
-    type: so.Mapped[str] = so.mapped_column(sa.String(16), default="SHORT")
+    type: so.Mapped[str] = so.mapped_column(sa.String(16))
+    # SHORT, LONG, COMMON
 
     room_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Room.id))
     
     room: so.Mapped[Room] = so.relationship(back_populates='tasks')
+
+    player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='task')
+
+class PlayerTask(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    completed: so.Mapped[bool] = so.mapped_column(sa.Boolean, default=False)
+
+    player_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), index=True)
+    task_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Task.id))
+    prerequesite_id: so.Mapped[int | None] = so.mapped_column(sa.ForeignKey('player_task.id'))
+
+    player: so.Mapped[Player] = so.relationship(back_populates='player_tasks')
+    task: so.Mapped[Task] = so.relationship(back_populates='player_tasks')
+    prerequesite: so.Mapped['PlayerTask | None'] = so.relationship(back_populates='successors')
+
+    successors: so.WriteOnlyMapped['PlayerTask | None'] = so.relationship(back_populates='prerequesite')
