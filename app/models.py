@@ -91,3 +91,14 @@ class Player(db.Model):
 class Room(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32))
+
+    tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
+
+class Task(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String(32))
+    type: so.Mapped[str] = so.mapped_column(sa.String(16), default="SHORT")
+
+    room_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Room.id))
+    
+    room: so.Mapped[Room] = so.relationship(back_populates='tasks')
