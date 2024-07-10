@@ -38,6 +38,11 @@ function updateLobby(status){
     })
 }
 
+const reveal_page = {
+    selector: "#role-reveal",
+    backgroundColor: "black"
+}
+
 const game_page = {
     selector: "#game",
     backgroundColor: "blue"
@@ -60,6 +65,12 @@ function loadPage(status){
     $( page.selector ).css("display", "block");
     $( "body" ).css("background-color", page.backgroundColor);
     page.update();
+}
+
+function startGame(){
+    $.post("/central", "START_GAME", function(){
+        alert("The game is starting");
+    })
 }
 
 
