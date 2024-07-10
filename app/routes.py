@@ -64,7 +64,7 @@ def sign_in_post(username):
         return redirect(url_for('sign_in', username=username))
     
     # Get current game
-    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    active_game = Game.get_active_game()
     if active_game is None:
         flash('No active game')
         return redirect(url_for('sign_in', username=username))
@@ -82,7 +82,7 @@ def player():
     '''
     
     # Get current game
-    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    active_game = Game.get_active_game()
     if active_game is None:
         return "No active game. Wait for settings to be submitted, then refresh the page"
     
@@ -114,7 +114,7 @@ def settings():
     form = settingsForm()
     if form.validate_on_submit():
         # Check no running game
-        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        active_game = active_game = Game.get_active_game()
         if active_game is not None:
             print("GAME "+active_game+" already running!")
             flash("Game in progress")
@@ -142,13 +142,28 @@ def settings():
 
 # Central
 
-@app.route('/central')
+@app.route('/central', methods=['GET', 'POST'])
 def central():
     '''
     Games page for Central.
     Shows emergency meeting button, voting screen and winner
     '''
-    return render_template("central.html")
+    # GET
+    if request.method == 'GET': return render_template("central.html")
+    # POST
+    if request.data == "START_GAME":
+        print("STARTING GAME")
+        game = Game.get_active_game()
+        if game.status != "LOBBY":
+            return ("Cannot start game, this game is in status: " + game.status), 403
+
+        game.assign_roles()
+        # TODO Assign tasks
+
+        # TODO Role reveal
+
+
+    return ("Unrecognized request: " + request.data), 404
 
 # Interfaces
 
@@ -166,7 +181,7 @@ def api(path, methods=['GET', 'POST']):
     # relates to current game
     if path_parts[0]=="game":
         # Get the current game and return 404 on failure
-        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        active_game = Game.get_active_game()
         if active_game is None: return "No active game running", 404
 
         if len(path_parts) == 1:
