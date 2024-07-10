@@ -1,3 +1,4 @@
+import random
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from flask_login import UserMixin
@@ -43,6 +44,20 @@ class Game(db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
+    def get_active_game():
+        return db.session.scalar(sa.select(Game).where(Game.active))
+    
+    def assign_roles(self):
+        crew_count = len(self.players) - self.imposter_count
+        roles = [0] * crew_count + [1] * self.imposter_count
+        random.shuffle(roles)
+        for i, player in enumerate(self.players):
+            player.role = roles[i]
+            print("{} has role: {}".format(player.user.name, player.role))
+
+    def assign_tasks(self):
+        pass
+
     def player_of_user(self, user):
         player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
         return player
@@ -57,8 +72,8 @@ class Game(db.Model):
 class Player(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     alive: so.Mapped[bool] = so.mapped_column(default=True)
-    role: so.Mapped[int] = so.mapped_column(default=0)
-    # NONE = 0, CREW = 1, IMPOSTER = -1
+    role: so.Mapped[int] = so.mapped_column(default=-1)
+    # NONE = -1, CREW = 0, IMPOSTER = 1
     cooldown: so.Mapped[int] = so.mapped_column(default=0)
 
     game_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Game.id), index=True)
@@ -73,4 +88,6 @@ class Player(db.Model):
         player_dict['user'] = user_dict
         return player_dict
 
-
+class Room(db.Model):
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String(32))
