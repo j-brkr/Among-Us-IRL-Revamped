@@ -94,7 +94,7 @@ class Player(db.Model):
 
 class Room(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    name: so.Mapped[str] = so.mapped_column(sa.String(32))
+    name: so.Mapped[str] = so.mapped_column(sa.String(32), unique=True)
 
     tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
 
@@ -126,6 +126,23 @@ class Task(db.Model):
     room: so.Mapped[Room] = so.relationship(back_populates='tasks')
 
     player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='task')
+
+    def load(data_path):
+        db.session.query(Task).delete()
+        tasks_path = os.path.join(data_path, "tasks.json")
+        try:
+            with open(tasks_path, 'r') as file:
+                data = json.load(file)
+                for task_data in data:
+                    room = db.session.scalar(sa.select(Room).where(Room.name==task_data["room"]))
+                    if room is None:
+                        print("Error loading tasks: The room {} does not exist".format(task_data["room"]))
+                        return None
+                    db.session.add(Task(name=task_data["name"], type=task_data["type"], room_id = room.id))
+                db.session.commit()
+
+        except FileNotFoundError:
+            print("Error loading Room file " + tasks_path + " . The file does not exist")
 
 class PlayerTask(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
