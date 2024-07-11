@@ -1,3 +1,5 @@
+import json
+import os
 import random
 import sqlalchemy as sa
 import sqlalchemy.orm as so
@@ -82,7 +84,7 @@ class Player(db.Model):
     game: so.Mapped[Game] = so.relationship(back_populates='players')
     user: so.Mapped[User] = so.relationship(back_populates='players')
 
-    player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='players')
+    player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='player')
 
     def as_dict(self):
         user_dict = self.user.as_dict()
@@ -95,6 +97,23 @@ class Room(db.Model):
     name: so.Mapped[str] = so.mapped_column(sa.String(32))
 
     tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
+
+    def load(data_path):
+        db.session.query(Room).delete()
+        room_path = os.path.join(data_path, "rooms.json")
+        try:
+            with open(room_path, 'r') as file:
+                data = json.load(file)
+                for room_data in data:
+                    db.session.add(Room(name=room_data["name"]))
+                db.session.commit()
+
+        except FileNotFoundError:
+            print("Error loading Room file " + room_path + " . The file does not exist")
+
+    def __repr__(self) -> str:
+        return "Room(name='{}')".format(self.name)
+
 
 class Task(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
@@ -118,6 +137,6 @@ class PlayerTask(db.Model):
 
     player: so.Mapped[Player] = so.relationship(back_populates='player_tasks')
     task: so.Mapped[Task] = so.relationship(back_populates='player_tasks')
-    prerequesite: so.Mapped['PlayerTask | None'] = so.relationship(back_populates='successors')
+    prerequesite: so.Mapped['PlayerTask | None'] = so.relationship(remote_side=[id], back_populates='successors')
 
     successors: so.WriteOnlyMapped['PlayerTask | None'] = so.relationship(back_populates='prerequesite')
