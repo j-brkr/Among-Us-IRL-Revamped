@@ -159,11 +159,11 @@ def central():
 
         game.assign_roles()
         # TODO Assign tasks
-
+        
         # TODO Role reveal
 
 
-    return ("Unrecognized request: " + request.data), 404
+    return ("Unrecognized request: " + str(request.data)), 404
 
 # Interfaces
 
