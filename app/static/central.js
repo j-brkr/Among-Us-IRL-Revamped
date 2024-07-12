@@ -1,3 +1,4 @@
+let timeCounter = -1;
 
 $( document ).ready(function(){
     updatePage();
@@ -19,28 +20,42 @@ function updatePage(){
 const lobby_page = {
     selector: "#lobby",
     backgroundColor: "black",
-    update: updateLobby
-}
-
-function updateLobby(status){
-    $.get("/api/game/players", function(players){
-        console.log(players);
-        // Player List
-        $( "#playerList" ).empty();
-        players.forEach(function(player){
-            let playerDisplay = $( '<div class="player"></div>' )
-                .text(player["user"]["name"])
-                .css("background-color", player["user"]["color"] + "A0");
-            $( "#playerList" ).append(playerDisplay)
+    update: function(){
+        $.get("/api/game/players", function(players){
+            console.log(players);
+            // Player List
+            $( "#playerList" ).empty();
+            players.forEach(function(player){
+                let playerDisplay = $( '<div class="player"></div>' )
+                    .text(player["user"]["name"])
+                    .css("background-color", player["user"]["color"] + "A0");
+                $( "#playerList" ).append(playerDisplay)
+            })
+            // Start Game Button
+            $( '#startGame' ).text("Start Game ("+players.length+" "+(players.length==1?"player":"players")+")").prop("disabled", players.length < 5);
         })
-        // Start Game Button
-        $( '#startGame' ).text("Start Game ("+players.length+" "+(players.length==1?"player":"players")+")").prop("disabled", players.length < 5);
-    })
+    }
 }
 
 const reveal_page = {
     selector: "#role-reveal",
-    backgroundColor: "black"
+    backgroundColor: "black",
+    update: function(){
+        timeCounter++;
+        console.log("Reveal update" + timeCounter);
+        if(timeCounter === 0){
+            audio = $( "#revealAudio" )[0];
+            console.log(audio)
+            audio.play();
+        }
+        if(timeCounter === 5){
+            // Reveal time is up
+            $.post("/api/command/REVEAL_END", function(data){
+                alert(data);
+                updatePage();
+            });
+        }
+    }
 }
 
 const game_page = {
@@ -56,7 +71,8 @@ const meeting_page = {
 const pages={
     "LOBBY": lobby_page,
     "GAME": game_page,
-    "MEETING": meeting_page
+    "MEETING": meeting_page,
+    "REVEAL": reveal_page
 }
 
 function loadPage(status){
@@ -64,14 +80,12 @@ function loadPage(status){
     let page = pages[status];
     $( page.selector ).css("display", "block");
     $( "body" ).css("background-color", page.backgroundColor);
-    page.update();
+    if("update" in page) page.update();
 }
 
 function startGame(){
-    $.post("/central", "START_GAME", function(){
-        alert("The game is starting");
-    })
+    $.post("/api/command/START_GAME", function(data){
+        timeCounter = -1;
+        updatePage();
+    });
 }
-
-
-
