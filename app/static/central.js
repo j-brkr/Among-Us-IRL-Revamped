@@ -50,7 +50,7 @@ const reveal_page = {
         }
         if(timeCounter === 5){
             // Reveal time is up
-            $.post("/api/command/REVEAL_END", function(data){
+            $.post("/api/command/END_REVEAL", function(data){
                 alert(data);
                 updatePage();
             });
@@ -79,7 +79,7 @@ function loadPage(status){
     $( ".page" ).css("display", "none");
     let page = pages[status];
     $( page.selector ).css("display", "block");
-    $( "body" ).css("background-color", page.backgroundColor);
+    $( "html" ).css("background-color", page.backgroundColor);
     if("update" in page) page.update();
 }
 
