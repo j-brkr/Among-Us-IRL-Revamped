@@ -1,0 +1,77 @@
+[
+    {
+        "name": "Lisa",
+        "color": "#FF8EBA",
+        "pin": "1234"
+    },
+    {
+        "name": "Anna",
+        "color": "#212121",
+        "pin": "1234"
+    },
+    {
+        "name": "Annie",
+        "color": "#FF7F00",
+        "pin": "1234"
+    },
+    {
+        "name": "Bennie",
+        "color": "#D0FF00",
+        "pin": "1234"
+    },
+    {
+        "name": "Connor",
+        "color": "#00FFFF",
+        "pin": "1234"
+    },
+    {
+        "name": "Jeff",
+        "color": "#FFFFFF",
+        "pin": "1234"
+    },
+    {
+        "name": "Noel",
+        "color": "#0000FF",
+        "pin": "1234"
+    },
+    {
+        "name": "Nabla",
+        "color": "#FFFF00",
+        "pin": "1234"
+    },
+    {
+        "name": "Pam",
+        "color": "#663300",
+        "pin": "1234"
+    },
+    {
+        "name": "Sophia",
+        "color": "#FF0000",
+        "pin": "1234"
+    },
+    {
+        "name": "Felisha",
+        "color": "#FF7F00",
+        "pin": "1234"
+    },
+    {
+        "name": "Cherry",
+        "color": "#202020",
+        "pin": "1234"
+    },
+    {
+        "name": "Ericknash",
+        "color": "#00A000",
+        "pin": "1234"
+    },
+    {
+        "name": "Freyah",
+        "color": "#6C7A3A",
+        "pin": "1234"
+    },
+    {
+        "name": "Hailee",
+        "color": "#77ff00",
+        "pin": "1234"
+    }
+]

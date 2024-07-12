@@ -6,6 +6,11 @@ import sqlalchemy.orm as so
 from flask_login import UserMixin
 from app import db, login
 
+def load_datapack(path):
+    Room.load(path)
+    Task.load(path)
+    User.load(path)
+
 @login.user_loader
 def load_user(id):
     return db.session.get(User, int(id))
@@ -17,6 +22,19 @@ class User(UserMixin, db.Model):
     pin: so.Mapped[str] = so.mapped_column(sa.String(6))
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
+
+    def load(data_path):
+        db.session.query(User).delete()
+        user_path = os.path.join(data_path, "users.json")
+        try:
+            with open(user_path, 'r') as file:
+                data = json.load(file)
+                for user_data in data:
+                    db.session.add(User(name=user_data["name"], color=user_data["color"], pin=user_data["pin"]))
+                db.session.commit()
+
+        except FileNotFoundError:
+            print("Error loading User file " + user_path + " . The file does not exist")
 
     def check_pin(self, pin):
         return self.pin == pin
@@ -50,15 +68,27 @@ class Game(db.Model):
         return db.session.scalar(sa.select(Game).where(Game.active))
     
     def assign_roles(self):
-        crew_count = len(self.players) - self.imposter_count
+        players = db.session.scalars(sa.select(Player).where(Player.game_id == self.id)).all()
+        crew_count = len(players) - self.imposter_count
         roles = [0] * crew_count + [1] * self.imposter_count
         random.shuffle(roles)
-        for i, player in enumerate(self.players):
+        for i, player in enumerate(players):
             player.role = roles[i]
             print("{} has role: {}".format(player.user.name, player.role))
 
     def assign_tasks(self):
-        pass
+        short_tasks = db.session.scalars(sa.select(Task).where(Task.type=="S")).all()
+        long_tasks = db.session.scalars(sa.select(Task).where(Task.type=="L")).all()
+        common_tasks = db.session.scalars(sa.select(Task).where(Task.type=="C")).all()
+        chosen_common_tasks = random.sample(common_tasks, self.common_tasks)
+        players = db.session.scalars(sa.select(Player).where(Player.game_id == self.id)).all()
+        for player in players:
+            tasks = random.sample(short_tasks, self.short_tasks) + random.sample(long_tasks, self.long_tasks) + chosen_common_tasks
+            for task in tasks:
+                db.session.add(PlayerTask(player_id=player.id, task_id = task.id))
+                print("Adding task " + task.name + " to " + player.user.name + "'s list")
+        db.session.commit()
+
 
     def player_of_user(self, user):
         player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
@@ -94,7 +124,7 @@ class Player(db.Model):
 
 class Room(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    name: so.Mapped[str] = so.mapped_column(sa.String(32), unique=True)
+    name: so.Mapped[str] = so.mapped_column(sa.String(32))
 
     tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
 
@@ -150,7 +180,7 @@ class PlayerTask(db.Model):
 
     player_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Player.id), index=True)
     task_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Task.id))
-    prerequesite_id: so.Mapped[int | None] = so.mapped_column(sa.ForeignKey('player_task.id'))
+    prerequesite_id: so.Mapped[int | None] = so.mapped_column(sa.ForeignKey('player_task.id', name='fk_playerTask_prequesite_id'))
 
     player: so.Mapped[Player] = so.relationship(back_populates='player_tasks')
     task: so.Mapped[Task] = so.relationship(back_populates='player_tasks')
