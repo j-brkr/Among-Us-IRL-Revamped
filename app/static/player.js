@@ -15,6 +15,11 @@ const lobby_page = {
     selector: "#lobby"
 }
 
+const role_reveal_page = {
+    title: "Role Reveal",
+    selector: "#role-reveal"
+}
+
 const game_page = {
     title: "Game",
     selector: "#game"
