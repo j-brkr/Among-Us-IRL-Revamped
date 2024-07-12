@@ -179,9 +179,9 @@ def api(path):
             response = [player.as_dict() for player in players]
             return response
     elif path_parts[0]=="command":
-        if path_parts[1]=="START_GAME":
-            print("STARTING GAME")
-            game = Game.get_active_game()
+        command = path_parts[1]
+        game = Game.get_active_game()
+        if command=="START_GAME":
             if game.status != "LOBBY":
                 return ("Cannot start game, this game is in status: " + game.status), 403
 
@@ -189,9 +189,16 @@ def api(path):
             game.assign_tasks()
             game.status = "REVEAL"
             db.session.commit()
-            return "Game Starting!", 200
+            return "Role Reveal!", 200
+        elif command=="END_REVEAL":
+            if game.status != "REVEAL":
+                return ("Cannot end role reveal, this game is in status: " + game.status), 403
 
-        return "Unrecognized command: " + str(path_parts[1]), 404
+            game.status = "GAME"
+            db.session.commit()
+            return "Game Started!", 200
+
+        return "Unrecognized command: " + str(command), 404
 
         
     return "The resource {} could not be found".format(path)
