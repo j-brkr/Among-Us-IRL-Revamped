@@ -4,8 +4,12 @@
     {"name": "Monitor Garden", "type": "S", "parts": 1, "room": "Greenhouse"},
     {"name": "Grease Hubcap", "type": "S", "parts": 1, "room": "Greenhouse"},
     {"name": "Start Reactor", "type": "L", "parts": 1, "room": "Reactor"},
+    {"name": "Start Reactor 2", "type": "L", "parts": 1, "room": "Reactor"},
+    {"name": "Start Reactor 3", "type": "L", "parts": 1, "room": "Reactor"},
     {"name": "Unlock Manifolds", "type": "S", "parts": 1, "room": "Reactor"},
     {"name": "Enter ID Code", "type": "C", "parts": 1, "room": "Security"},
+    {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Security"},
+    {"name": "Fix Wines", "type": "C", "parts": 1, "room": "Security"},
     {"name": "Store Surveillance System", "type": "S", "parts": 1, "room": "Security"},
     {"name": "Clean O2 Filter", "type": "S", "parts": 1, "room": "O2"}
 ]
