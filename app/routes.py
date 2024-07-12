@@ -142,28 +142,13 @@ def settings():
 
 # Central
 
-@app.route('/central', methods=['GET', 'POST'])
+@app.route('/central')
 def central():
     '''
     Games page for Central.
     Shows emergency meeting button, voting screen and winner
     '''
-    # GET
-    if request.method == 'GET': return render_template("central.html")
-    # POST
-    if request.data == "START_GAME":
-        print("STARTING GAME")
-        game = Game.get_active_game()
-        if game.status != "LOBBY":
-            return ("Cannot start game, this game is in status: " + game.status), 403
-
-        game.assign_roles()
-        # TODO Assign tasks
-        
-        # TODO Role reveal
-
-
-    return ("Unrecognized request: " + str(request.data)), 404
+    return render_template("central.html")
 
 # Interfaces
 
@@ -175,8 +160,8 @@ def interface_route(path):
 
 # Game API
 
-@app.route("/api/<path:path>")
-def api(path, methods=['GET', 'POST']):
+@app.route("/api/<path:path>", methods=['GET', 'POST'])
+def api(path):
     path_parts = path.split("/")
     # relates to current game
     if path_parts[0]=="game":
@@ -193,6 +178,20 @@ def api(path, methods=['GET', 'POST']):
             players = db.session.scalars(active_game.players.select()).all()
             response = [player.as_dict() for player in players]
             return response
+    elif path_parts[0]=="command":
+        if path_parts[1]=="START_GAME":
+            print("STARTING GAME")
+            game = Game.get_active_game()
+            if game.status != "LOBBY":
+                return ("Cannot start game, this game is in status: " + game.status), 403
+
+            game.assign_roles()
+            game.assign_tasks()
+            game.status = "REVEAL"
+            db.session.commit()
+            return "Game Starting!", 200
+
+        return "Unrecognized command: " + str(path_parts[1]), 404
 
         
     return "The resource {} could not be found".format(path)
