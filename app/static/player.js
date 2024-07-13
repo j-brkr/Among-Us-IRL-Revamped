@@ -43,6 +43,16 @@ function loadPage(status){
     $( page.selector ).css("display", "block");
 }
 
-function showCrewMap(){
-    
+function taskClick(playerTaskId, completed){
+    let put_data = JSON.stringify({"completed": completed});
+    console.log(put_data);
+    $.ajax({
+        url: "/api/player_task/" + playerTaskId,
+        type: 'PUT',
+        data: put_data,
+        contentType: "application/json",
+        success: function (result){
+            console.log("Success: " + result)
+        }
+    });
 }

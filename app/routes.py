@@ -161,7 +161,7 @@ def interface_route(path):
 
 # Game API
 
-@app.route("/api/<path:path>", methods=['GET', 'POST'])
+@app.route("/api/<path:path>", methods=['GET', 'POST', 'PUT'])
 def api(path):
     path_parts = path.split("/")
     # relates to current game
@@ -179,6 +179,15 @@ def api(path):
             players = db.session.scalars(active_game.players.select()).all()
             response = [player.as_dict() for player in players]
             return response
+    elif path_parts[0]=="player_task":
+        ptask_id = int(path_parts[1])
+        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==ptask_id))
+        if ptask is None: return "player task {} not found".format(ptask_id), 404
+        p = request.get_json()
+        ptask.completed = p["completed"]
+        db.session.add(ptask)
+        db.session.commit()
+        return "success"
     elif path_parts[0]=="command":
         command = path_parts[1]
         game = Game.get_active_game()
@@ -202,5 +211,5 @@ def api(path):
         return "Unrecognized command: " + str(command), 404
 
         
-    return "The resource {} could not be found".format(path)
+    return "The resource {} could not be found".format(path), 404
 
