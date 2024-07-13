@@ -74,10 +74,27 @@ footer{
 	margin: 0;
 }
 
-ul li{
+#taskBox ul{
+	padding-left: 3vw;
+	padding-right: 3vw;
+}
+
+#taskBox li{
 	display:block;
 	list-style-type: none;
-	text-align: center;
+	font-size: 3vh;
+	padding: 1vh;
+	border-radius: 1vh;
+	margin: 5px 0px;
+	background-color: #C0C0C080;
+}
+
+#taskBox .partially-complete{
+	background-color: #FFFF0080;
+}
+
+#taskBox .completed{
+	background-color: #00FF0080;
 }
 
 #abilities{

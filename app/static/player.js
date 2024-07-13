@@ -42,3 +42,7 @@ function loadPage(status){
     $( 'title' ).text("Among Us IRL - " + page.title)
     $( page.selector ).css("display", "block");
 }
+
+function showCrewMap(){
+    
+}
