@@ -114,7 +114,7 @@ def settings():
     form = settingsForm()
     if form.validate_on_submit():
         # Check no running game
-        active_game = active_game = Game.get_active_game()
+        active_game = Game.get_active_game()
         if active_game is not None:
             print("GAME "+active_game+" already running!")
             flash("Game in progress")
