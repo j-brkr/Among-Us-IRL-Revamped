@@ -10,7 +10,39 @@
         
     </div>
     <div class="page" id="game">
-        
+        <div class="title">
+            Tasks
+            <img id="mapButton" src="/static/map_icon.png" onclick="showCrewMap()">
+        </div>
+        <div id="taskBox">
+            <!--<TASKS>-->
+        </div>
+        <div id="abilities">
+            <img src="/static/report.png" onclick="report()">
+            <!--<img src="/static/kill.png" onclick="kill()">-->
+            <img src="/static/sabotage.png" onclick="showImpMap()">
+            <img src="/static/dead_body.png" style="width:20vw" onclick="die()">
+            <!--<div style="padding-bottom:2vw;padding-left:2vw" onclick="showCountdown()"><img src="/static/show_cooldown.png" style="padding:0">
+                <p id="killCooldownElement"><KILL COOLDOWN></p>
+            </div>-->
+        </div>
+        <a href="DIE-<UID>"></a>
+        <div id="task map" class="fullscreen" style="display:none">
+            <img src="map.png" style="width:100%;height:100%">
+            <img src="/static/Close Icon.png" class="close" onclick="hideCrewMap()">
+            <!--<MAP TASKS>-->
+        </div>
+        <div id="sabotages" class="fullscreen" style="display:none">
+            <img src="/static/sabotage map.png" style="width:100%;height:100%">
+            <img src="/static/Close Icon.png" class="close" onclick="hideImpMap()">
+            <!--<SABOTAGES>-->
+        </div>
+        <!--
+        <div id="smokescreen" class="fullscreen">
+            <img src="/static/smokescreen.png" style="width:100%;height:100%">
+            <h2 id="smokescreenCountdownElement"></h2>
+        </div>
+        -->
     </div>
     <div class="page" id="meeting">
         
