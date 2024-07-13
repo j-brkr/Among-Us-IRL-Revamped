@@ -3,7 +3,7 @@ from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
-from app.models import User, Game, Player
+from app.models import User, Game, Player, Room, PlayerTask, Task
 from app.forms import settingsForm
 
 import json
@@ -93,7 +93,8 @@ def player():
         db.session.add(player)
         db.session.commit()
 
-    return render_template("player.html", title="Player", user=current_user, player=player)
+    tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
+    return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks)
 
 # Gamemaster
 

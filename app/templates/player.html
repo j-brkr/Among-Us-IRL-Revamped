@@ -15,7 +15,11 @@
             <img id="mapButton" src="/static/map_icon.png" onclick="showCrewMap()">
         </div>
         <div id="taskBox">
-            <!--<TASKS>-->
+            <ul>
+            {% for ptask in tasks %}
+                <li>{{ptask.task.room.name}}: {{ptask.task.name}}</li>
+            {% endfor %}
+            </ul>
         </div>
         <div id="abilities">
             <img src="/static/report.png" onclick="report()">
