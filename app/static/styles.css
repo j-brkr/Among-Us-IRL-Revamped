@@ -45,6 +45,21 @@ footer{
 	right: 0;
 }
 
+/* Select User */
+
+#menu TD{
+	width: 50vw;
+	font-size: 4vh;
+	text-align:center;
+	border: 1vh solid black;
+	border-radius: 3vw;
+}
+
+#menu a{
+	color: white;
+	text-decoration: none;
+}
+
 /* Role Reveal */
 
 /*
