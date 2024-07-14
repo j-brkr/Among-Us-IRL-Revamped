@@ -73,6 +73,15 @@ footer{
 
 .impList img{
 	width: 30%;
+}
+
+#impCount{
+	position: absolute;
+	color: red;
+	font-size: 3.5vw;
+	margin: 0;
+	left: 39%;
+	top: 24.75%;
 }*/
 
 /* Game */
@@ -125,6 +134,13 @@ footer{
 	padding: 1vw
 }
 
+/* Meeting */
+#meeting img{
+	position: relative;
+	top: 30vh;
+	max-width: 100vw;
+}
+
 /*#user{
 	margin: auto;
 	padding: 0.5vh;
@@ -134,16 +150,7 @@ footer{
 	//background-color: <USER COLOUR>;
 	border-radius: 2vw;
 }
-
-
-#impCount{
-	position: absolute;
-	color: red;
-	font-size: 3.5vw;
-	margin: 0;
-	left: 39%;
-	top: 24.75%;
-}*/
+*/
 
 @font-face {
 	font-family: "Joff";
