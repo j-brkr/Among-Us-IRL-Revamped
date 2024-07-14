@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import json
 import os
 import random
@@ -75,6 +76,11 @@ class Game(db.Model):
         for i, player in enumerate(players):
             player.role = roles[i]
             print("{} has role: {}".format(player.user.name, player.role))
+    
+    def start_game(self):
+        self.status = "GAME"
+        self.time_started = datetime.now(timezone.utc)
+        db.session.commit()
 
     def assign_tasks(self):
         short_tasks = db.session.scalars(sa.select(Task).where(Task.type=="S")).all()
@@ -97,8 +103,8 @@ class Game(db.Model):
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-    def __repr__(self):
-        return "<Game {} {}>".format(self.id, ("Active" if self.active else ""))
+    def __str__(self):
+        return "<Game {} {}>".format(self.id, ("Active" if self.active else "Inactive"))
     
 
 class Player(db.Model):
