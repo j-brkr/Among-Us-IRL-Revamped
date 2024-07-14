@@ -60,12 +60,12 @@ const reveal_page = {
 
 const game_page = {
     selector: "#game",
-    backgroundColor: "blue"
+    backgroundColor: "#264775"
 }
 
 const meeting_page = {
     selector: "#voting",
-    backgroundColor: "blue"
+    backgroundColor: "#264775"
 }
 
 const pages={
