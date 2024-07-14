@@ -50,7 +50,7 @@ const reveal_page = {
         }
         if(timeCounter === 5){
             // Reveal time is up
-            $.post("/api/command/END_REVEAL", function(data){
+            $.post("/command/END_REVEAL", function(data){
                 alert(data);
                 updatePage();
             });
@@ -84,7 +84,7 @@ function loadPage(status){
 }
 
 function startGame(){
-    $.post("/api/command/START_GAME", function(data){
+    $.post("command/START_GAME", function(data){
         timeCounter = -1;
         updatePage();
     });

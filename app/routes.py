@@ -203,28 +203,25 @@ def api(path):
         db.session.add(ptask)
         db.session.commit()
         return "success"
-    elif path_parts[0]=="command":
-        command = path_parts[1]
-        game = Game.get_active_game()
-        if command=="START_GAME":
-            if game.status != "LOBBY":
-                return ("Cannot start game, this game is in status: " + game.status), 403
-
-            game.assign_roles()
-            game.assign_tasks()
-            game.status = "REVEAL"
-            db.session.commit()
-            return "Role Reveal!", 200
-        elif command=="END_REVEAL":
-            if game.status != "REVEAL":
-                return ("Cannot end role reveal, this game is in status: " + game.status), 403
-
-            game.status = "GAME"
-            db.session.commit()
-            return "Game Started!", 200
-
-        return "Unrecognized command: " + str(command), 404
-
-        
     return "The resource {} could not be found".format(path), 404
+
+@app.route("/command/<string:command_string>", methods=['GET', 'POST', 'PUT'])
+def command(command_string):
+    game = Game.get_active_game()
+    if command_string=="START_GAME":
+        if game.status != "LOBBY":
+            return ("Cannot start game, this game is in status: " + game.status), 403
+
+        game.assign_roles()
+        game.assign_tasks()
+        game.status = "REVEAL"
+        db.session.commit()
+        return "Role Reveal!", 200
+    elif command_string=="END_REVEAL":
+        if game.status != "REVEAL":
+            return ("Cannot end role reveal, this game is in status: " + game.status), 403
+        game.start_game()
+        return "Game Started!", 200
+
+    return "Unrecognized command: " + str(command_string), 404
 
