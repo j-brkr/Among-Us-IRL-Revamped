@@ -59,7 +59,7 @@ function taskClick(playerTaskId, completed){
         data: put_data,
         contentType: "application/json",
         success: function (result){
-            console.log("Success: " + result)
+            game_page.update();
         }
     });
 }
