@@ -15,11 +15,7 @@
             <img id="mapButton" src="/static/map_icon.png" onclick="showCrewMap()">
         </div>
         <div id="taskBox">
-            <ul>
-            {% for ptask in tasks %}
-                <li {% if ptask.completed %}class="completed"{% endif %} onclick="taskClick({{ptask.id}}, {{'false' if ptask.completed else 'true'}})">{{ptask.task.room.name}}: {{ptask.task.name}}</li>
-            {% endfor %}
-            </ul>
+            " Tasks will appear here "
         </div>
         <div id="abilities">
             <img src="/static/report.png" onclick="report()">

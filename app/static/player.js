@@ -22,7 +22,13 @@ const role_reveal_page = {
 
 const game_page = {
     title: "Game",
-    selector: "#game"
+    selector: "#game",
+    update: function(){
+        //$( "#taskBox" ).empty();
+        $.get("/player-task_box", function(data){
+            $( "#taskBox" ).html(data);
+        });
+    }
 }
 
 const meeting_page = {
@@ -41,6 +47,7 @@ function loadPage(status){
     let page = pages[status];
     $( 'title' ).text("Among Us IRL - " + page.title)
     $( page.selector ).css("display", "block");
+    if("update" in page) page.update();
 }
 
 function taskClick(playerTaskId, completed){
