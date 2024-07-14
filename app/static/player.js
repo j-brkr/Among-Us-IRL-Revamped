@@ -1,14 +1,22 @@
+let page = "NONE"
+
 $( document ).ready(function(){
+    checkStatus();
+    setInterval(checkStatus, 2000);
+})
+
+function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
-        loadPage(game["status"]);
-
+        if(game["status"] !== page.status){
+            loadPage(game["status"]);
+        }
     })
     .fail(function(){
         console.log("GET Failed")
-        document.write("GET Failed. Maybe there is no active game")
+        document.write("Connection Lost!")
     });
-})
+}
 
 const lobby_page = {
     title: "Lobby",
