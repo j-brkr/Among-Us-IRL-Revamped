@@ -89,3 +89,9 @@ function startGame(){
         updatePage();
     });
 }
+
+function emergencyPressed(){
+    $.post("command/EMERGENCY", function(data){
+        updatePage();
+    });
+}

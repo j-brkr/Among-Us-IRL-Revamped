@@ -222,6 +222,11 @@ def command(command_string):
             return ("Cannot end role reveal, this game is in status: " + game.status), 403
         game.start_game()
         return "Game Started!", 200
+    elif command_string=="EMERGENCY":
+        if game.status != "GAME":
+            return ("Cannot call emergency meeting, this game is in status: " + game.status), 403
+        game.emergency()
+        return "Emergency Called!", 200
 
     return "Unrecognized command: " + str(command_string), 404
 

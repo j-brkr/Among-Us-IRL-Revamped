@@ -77,10 +77,6 @@ class Game(db.Model):
             player.role = roles[i]
             print("{} has role: {}".format(player.user.name, player.role))
     
-    def start_game(self):
-        self.status = "GAME"
-        self.time_started = datetime.now(timezone.utc)
-        db.session.commit()
 
     def assign_tasks(self):
         short_tasks = db.session.scalars(sa.select(Task).where(Task.type=="S")).all()
@@ -94,7 +90,15 @@ class Game(db.Model):
                 db.session.add(PlayerTask(player_id=player.id, task_id = task.id))
                 print("Adding task " + task.name + " to " + player.user.name + "'s list")
         db.session.commit()
+    
+    def start_game(self):
+        self.status = "GAME"
+        self.time_started = datetime.now(timezone.utc)
+        db.session.commit()
 
+    def emergency(self):
+        self.status = "MEETING"
+        db.session.commit()
 
     def player_of_user(self, user):
         player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
