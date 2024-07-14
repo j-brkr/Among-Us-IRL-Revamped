@@ -8,7 +8,8 @@ $( document ).ready(function(){
 function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
-        if(game["status"] !== page.status){
+        if(game["status"] != page.status){
+            console.log("Status mismatch: " + game["status"] + " and " + page.status)
             loadPage(game["status"]);
         }
     })
@@ -19,16 +20,19 @@ function checkStatus(){
 }
 
 const lobby_page = {
+    status: "LOBBY",
     title: "Lobby",
     selector: "#lobby"
 }
 
 const role_reveal_page = {
+    status: "REVEAL",
     title: "Role Reveal",
     selector: "#role-reveal"
 }
 
 const game_page = {
+    status: "GAME",
     title: "Game",
     selector: "#game",
     load: this.update,
@@ -41,6 +45,7 @@ const game_page = {
 }
 
 const meeting_page = {
+    status: "MEETING",
     title: "Meeting",
     selector: "#meeting",
     load: function(){
