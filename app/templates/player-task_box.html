@@ -1,0 +1,5 @@
+<ul>
+    {% for ptask in tasks %}
+        <li {% if ptask.completed %}class="completed"{% endif %} onclick="taskClick({{ptask.id}}, {{'false' if ptask.completed else 'true'}})">{{ptask.task.room.name}}: {{ptask.task.name}}</li>
+    {% endfor %}
+</ul>

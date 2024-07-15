@@ -3,7 +3,7 @@ from app import app
 from flask_login import current_user, login_user, logout_user, login_required
 import sqlalchemy as sa
 from app import db, interfaces
-from app.models import User, Game, Player
+from app.models import User, Game, Player, Room, PlayerTask, Task
 from app.forms import settingsForm
 
 import json
@@ -64,7 +64,7 @@ def sign_in_post(username):
         return redirect(url_for('sign_in', username=username))
     
     # Get current game
-    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    active_game = Game.get_active_game()
     if active_game is None:
         flash('No active game')
         return redirect(url_for('sign_in', username=username))
@@ -82,7 +82,7 @@ def player():
     '''
     
     # Get current game
-    active_game = db.session.scalar(sa.select(Game).where(Game.active))
+    active_game = Game.get_active_game()
     if active_game is None:
         return "No active game. Wait for settings to be submitted, then refresh the page"
     
@@ -93,7 +93,23 @@ def player():
         db.session.add(player)
         db.session.commit()
 
-    return render_template("player.html", title="Player", user=current_user)
+    tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
+    return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks)
+
+@app.route('/player-task_box')
+@login_required
+def task_box():
+    # Get current game
+    game = Game.get_active_game()
+    if game is None:
+        return "No active game", 404
+    
+    # Get player
+    player = game.player_of_user(current_user)
+
+    tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
+    return render_template("player-task_box.html", player=player, tasks=tasks)
+
 
 # Gamemaster
 
@@ -114,7 +130,7 @@ def settings():
     form = settingsForm()
     if form.validate_on_submit():
         # Check no running game
-        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        active_game = Game.get_active_game()
         if active_game is not None:
             print("GAME "+active_game+" already running!")
             flash("Game in progress")
@@ -160,13 +176,13 @@ def interface_route(path):
 
 # Game API
 
-@app.route("/api/<path:path>")
-def api(path, methods=['GET', 'POST']):
+@app.route("/api/<path:path>", methods=['GET', 'POST', 'PUT'])
+def api(path):
     path_parts = path.split("/")
     # relates to current game
     if path_parts[0]=="game":
         # Get the current game and return 404 on failure
-        active_game = db.session.scalar(sa.select(Game).where(Game.active))
+        active_game = Game.get_active_game()
         if active_game is None: return "No active game running", 404
 
         if len(path_parts) == 1:
@@ -178,7 +194,39 @@ def api(path, methods=['GET', 'POST']):
             players = db.session.scalars(active_game.players.select()).all()
             response = [player.as_dict() for player in players]
             return response
+    elif path_parts[0]=="player_task":
+        ptask_id = int(path_parts[1])
+        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==ptask_id))
+        if ptask is None: return "player task {} not found".format(ptask_id), 404
+        p = request.get_json()
+        ptask.completed = p["completed"]
+        db.session.add(ptask)
+        db.session.commit()
+        return "success"
+    return "The resource {} could not be found".format(path), 404
 
-        
-    return "The resource {} could not be found".format(path)
+@app.route("/command/<string:command_string>", methods=['GET', 'POST', 'PUT'])
+def command(command_string):
+    game = Game.get_active_game()
+    if command_string=="START_GAME":
+        if game.status != "LOBBY":
+            return ("Cannot start game, this game is in status: " + game.status), 403
+
+        game.assign_roles()
+        game.assign_tasks()
+        game.status = "REVEAL"
+        db.session.commit()
+        return "Role Reveal!", 200
+    elif command_string=="END_REVEAL":
+        if game.status != "REVEAL":
+            return ("Cannot end role reveal, this game is in status: " + game.status), 403
+        game.start_game()
+        return "Game Started!", 200
+    elif command_string=="EMERGENCY":
+        if game.status != "GAME":
+            return ("Cannot call emergency meeting, this game is in status: " + game.status), 403
+        game.emergency()
+        return "Emergency Called!", 200
+
+    return "Unrecognized command: " + str(command_string), 404
 

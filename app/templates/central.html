@@ -11,13 +11,20 @@
             <h1>Lobby</h1>
             <p>Player's names will appear below</p>
             <div id="playerList"></div>
-            <button id="startGame">Start Game</button>
+            <button id="startGame" onclick="startGame()">Start Game</button>
+        </div>
+        <div class="page" id="role-reveal">
+            <audio id="revealAudio">
+                <source src="static/reveal.wav" type="audio/wav">
+            </audio>
+            <img src="static/reveal.png">
         </div>
         <div class="page" id="game">
-
+            <img id="emergencyButtonImage" src="/static/emergency_button.png">
+            <div id="emergencyButton" onclick="emergencyPressed()"></div>
         </div>
         <div class="page" id="voting">
-
+            <h1>Voting Page</h1>
         </div>
     </body>
 </html>

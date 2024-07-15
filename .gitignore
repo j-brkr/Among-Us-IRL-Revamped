@@ -6,3 +6,4 @@ __pycache__/
 pyvenv.cfg
 app.db
 test_data.py
+app/static/maps/

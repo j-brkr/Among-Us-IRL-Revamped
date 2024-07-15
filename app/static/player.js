@@ -1,28 +1,57 @@
+let page = "NONE"
+
 $( document ).ready(function(){
+    checkStatus();
+    setInterval(checkStatus, 2000);
+})
+
+function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
-        loadPage(game["status"]);
-
+        if(game["status"] != page.status){
+            console.log("Status mismatch: " + game["status"] + " and " + page.status)
+            loadPage(game["status"]);
+        }
     })
     .fail(function(){
         console.log("GET Failed")
-        document.write("GET Failed. Maybe there is no active game")
+        document.write("Connection Lost!")
     });
-})
+}
 
 const lobby_page = {
+    status: "LOBBY",
     title: "Lobby",
     selector: "#lobby"
 }
 
+const role_reveal_page = {
+    status: "REVEAL",
+    title: "Role Reveal",
+    selector: "#role-reveal"
+}
+
 const game_page = {
+    status: "GAME",
     title: "Game",
-    selector: "#game"
+    selector: "#game",
+    load: this.update,
+    update: function(){
+        //$( "#taskBox" ).empty();
+        $.get("/player-task_box", function(data){
+            $( "#taskBox" ).html(data);
+        });
+    }
 }
 
 const meeting_page = {
+    status: "MEETING",
     title: "Meeting",
-    selector: "#meeting"
+    selector: "#meeting",
+    load: function(){
+        audio = $( "#emergencyAudio" )[0];
+        audio.play();
+    }
 }
 
 const pages={
@@ -33,7 +62,22 @@ const pages={
 
 function loadPage(status){
     $( ".page" ).css("display", "none");
-    let page = pages[status];
+    page = pages[status];
     $( 'title' ).text("Among Us IRL - " + page.title)
     $( page.selector ).css("display", "block");
+    if("load" in page) page.load();
+}
+
+function taskClick(playerTaskId, completed){
+    let put_data = JSON.stringify({"completed": completed});
+    console.log(put_data);
+    $.ajax({
+        url: "/api/player_task/" + playerTaskId,
+        type: 'PUT',
+        data: put_data,
+        contentType: "application/json",
+        success: function (result){
+            game_page.update();
+        }
+    });
 }

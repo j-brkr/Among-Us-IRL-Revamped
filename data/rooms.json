@@ -1,0 +1,16 @@
+[
+    {"name": "Launchpad",       "x": 50, "y": 26},
+    {"name": "Greenhouse",      "x": 22, "y": 22},
+    {"name": "Reactor",         "x": 25, "y": 33},
+    {"name": "Security",        "x": 23, "y": 37},
+    {"name": "O2",              "x": 42, "y": 47},
+    {"name": "Laboratory",      "x": 76, "y": 54},
+    {"name": "Communications",  "x": 58, "y": 52},
+    {"name": "Admin",           "x": 22, "y": 55},
+    {"name": "Cafeteria",       "x": 25, "y": 78},
+    {"name": "Medical Bay",     "x": 67, "y": 66},
+    {"name": "Storage",         "x": 72, "y": 62},
+    {"name": "Exterior",        "x": 78, "y": 69},
+    {"name": "Boiler",          "x": 17, "y": 67},
+    {"name": "Pit",             "x": 16, "y": 89}
+]
