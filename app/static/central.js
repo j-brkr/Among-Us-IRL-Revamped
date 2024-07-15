@@ -45,7 +45,6 @@ const reveal_page = {
         console.log("Reveal update" + timeCounter);
         if(timeCounter === 0){
             audio = $( "#revealAudio" )[0];
-            console.log(audio)
             audio.play();
         }
         if(timeCounter === 5){
@@ -94,4 +93,24 @@ function emergencyPressed(){
     $.post("command/EMERGENCY", function(data){
         updatePage();
     });
+}
+
+function vote(){
+    let ejected = input("Insert eject name");
+    $.post("command/EJECT", function(data){
+        updatePage();
+    });
+    function taskClick(playerTaskId, completed){
+        let put_data = JSON.stringify({"completed": completed});
+        console.log(put_data);
+        $.ajax({
+            url: "/api/player_task/" + playerTaskId,
+            type: 'PUT',
+            data: put_data,
+            contentType: "application/json",
+            success: function (result){
+                game_page.update();
+            }
+        });
+    }
 }
