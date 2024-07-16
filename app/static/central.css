@@ -119,3 +119,25 @@ h1{
     font-weight: bold;
     border-radius: 5px;
 }
+
+/* Eject screen */
+#eject{
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("background.jpg");
+}
+
+#ejectText{
+    position: fixed;
+    top: 40%;
+    left: 40%;
+    margin: auto;
+    text-align: center;
+    color: white;
+    font-size: 20pt;
+}

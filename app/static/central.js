@@ -7,7 +7,7 @@ $( document ).ready(function(){
 
 function updatePage(){
     $.get( "/api/game", function(game){
-        console.log(game);
+        //console.log(game);
         loadPage(game["status"]);
 
     })
@@ -95,22 +95,37 @@ function emergencyPressed(){
     });
 }
 
-function vote(){
-    let ejected = input("Insert eject name");
-    $.post("command/EJECT", function(data){
-        updatePage();
-    });
-    function taskClick(playerTaskId, completed){
-        let put_data = JSON.stringify({"completed": completed});
-        console.log(put_data);
-        $.ajax({
-            url: "/api/player_task/" + playerTaskId,
-            type: 'PUT',
-            data: put_data,
-            contentType: "application/json",
-            success: function (result){
-                game_page.update();
-            }
+function eject(playerId){
+    if(playerId == -1){
+        ejectScreen("No one was ejected");
+    }
+    else{
+        $.post("command/EJECT", function(data){
+            updatePage();
         });
+    }
+}
+
+
+let i = 1;
+let timeInterval;
+function ejectScreen(text){
+    $( "#eject" ).css("display", "block");
+    $( "#eject" ).css("opacity", "1");
+    setTimeout(ejectMessage, 1000, text);
+    
+}
+
+function ejectMessage(text){
+    $( '#ejectAudio' )[0].play();
+    i = 1;
+    timeInterval = setInterval(typeEject, 100, text);
+}
+
+function typeEject(text){
+    $(" #ejectText ").html(text.substring(0,i));
+    i++;
+    if(i > text.length){
+        clearInterval(timeInterval);
     }
 }

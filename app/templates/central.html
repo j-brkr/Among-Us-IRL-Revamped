@@ -23,7 +23,7 @@
             <img id="emergencyButtonImage" src="/static/emergency_button.png">
             <div id="emergencyButton" onclick="emergencyPressed()"></div>
         </div>
-        <div class="page" id="voting" onclick="vote()">
+        <div class="page" id="voting">
             <h1 style="color:white">Inn or Out?</h1>
             <div id="votingBox">
                 {% for player in players %}
@@ -33,7 +33,13 @@
                     </div>
                 {% endfor %}
             </div>
-            <button id="skipVote">SKIP VOTE</button>
+            <button id="skipVote" onclick="eject(-1)">SKIP VOTE</button>
+        </div>
+        <div id="eject">
+            <audio id="ejectAudio">
+                <source src="/static/eject.mp3">
+            </audio>
+            <p id="ejectText"></p>
         </div>
     </body>
 </html>
