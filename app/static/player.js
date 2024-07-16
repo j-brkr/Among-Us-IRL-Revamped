@@ -9,7 +9,7 @@ function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
         if(game["status"] != page.status){
-            console.log("Status mismatch: " + game["status"] + " and " + page.status)
+            //console.log("Status mismatch: " + game["status"] + " and " + page.status)
             loadPage(game["status"]);
         }
     })
