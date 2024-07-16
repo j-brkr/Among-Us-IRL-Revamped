@@ -69,7 +69,7 @@ h1{
 /* Meeting page */
 
 #voting h1{
-    font-size: 6vh;
+    font-size: 7vh;
 }
 
 #votingBox{
@@ -84,21 +84,21 @@ h1{
 .playerVoteBox{
     display: flex;
     background-color: rgb(253, 246, 238);
-    height: 15vh;
+    height: 12vh;
+    align-items: center;
     text-align: center;
+    font-size: 3vh;
     border: solid grey 2px;
     border-radius: 2vh;
 }
 
-.playerVoteBox h2{
-    flex: 2;
-    font-size: 5vh;
+.playerVoteBox div{
+    width: 100%;
 }
 
 .playerVoteBox img{
-    align-self: self-end;
     margin: 2.2%;
-    height: 80%;
+    height: 70%;
 }
 
 #skipVote{
