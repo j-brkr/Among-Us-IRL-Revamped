@@ -11,9 +11,9 @@ function updatePage(){
         loadPage(game["status"]);
 
     })
-    .fail(function(){
-        console.log("GET Failed")
-        document.write("GET Failed. Maybe there is no active game")
+    .fail(function(jqXHR, textStatus, errorThrown){
+        console.log(JSON.stringify(jqXHR));
+        document.write("GET Failed. The server is probably down\n")
     });
 }
 

@@ -188,7 +188,8 @@ def api(path):
     if path_parts[0]=="game":
         # Get the current game and return 404 on failure
         active_game = Game.get_active_game()
-        if active_game is None: return "No active game running", 404
+        if active_game is None: 
+            return url_for("settings")
 
         if len(path_parts) == 1:
             # Game object
