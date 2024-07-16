@@ -164,7 +164,12 @@ def central():
     Games page for Central.
     Shows emergency meeting button, voting screen and winner
     '''
-    return render_template("central.html")
+    game = Game.get_active_game()
+    if game is None:
+        flash("No game running")
+        return redirect(url_for('directories'))
+    players = db.session.scalars(sa.select(Player).where(Player.game_id==game.id)).all()
+    return render_template("central.html", players = players)
 
 # Interfaces
 

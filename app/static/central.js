@@ -64,7 +64,7 @@ const game_page = {
 
 const meeting_page = {
     selector: "#voting",
-    backgroundColor: "#264775"
+    backgroundColor: "rgb(0 107 255)"
 }
 
 const pages={
