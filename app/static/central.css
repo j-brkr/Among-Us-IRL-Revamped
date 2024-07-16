@@ -101,6 +101,14 @@ h1{
     height: 70%;
 }
 
+.playerVoteBox.dead{
+    background-color: rgb(126, 126, 126);
+}
+
+.playerVoteBox.dead img{
+    opacity: 0.5;
+}
+
 #skipVote{
     margin: 1vh 1vw;
     position: fixed;

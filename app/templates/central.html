@@ -27,7 +27,7 @@
             <h1 style="color:white">Inn or Out?</h1>
             <div id="votingBox">
                 {% for player in players %}
-                    <div class="playerVoteBox">
+                    <div class="{{ 'playerVoteBox dead' if not player.alive else 'playerVoteBox' }}">
                         <img src="static/default_player.png">
                         <div><h2>{{player.user.name}}</h2></div>
                     </div>
