@@ -67,6 +67,7 @@ h1{
 }
 
 /* Meeting page */
+
 #voting h1{
     font-size: 6vh;
 }
@@ -98,4 +99,15 @@ h1{
     align-self: self-end;
     margin: 2.2%;
     height: 80%;
+}
+
+#skipVote{
+    margin: 1vh 1vw;
+    position: fixed;
+    bottom: 4vh;
+    left: 4vh;
+    background-color: darkgrey;
+    font-size: x-large;
+    font-weight: bold;
+    border-radius: 5px;
 }
