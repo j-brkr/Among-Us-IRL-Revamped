@@ -65,3 +65,25 @@ h1{
     height: 40vh;
     background-color: #FF000010;
 }
+
+/* Meeting page */
+#votingBox{
+    margin: auto;
+    width: 90%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    column-gap: 3%;
+    row-gap: 4%;
+}
+
+.playerVoteBox{
+    flex: none;
+    background-color: rgb(253, 246, 238);
+    text-align: center;
+    border-radius: 2vh;
+}
+
+.playerVoteBox h2{
+    
+}
