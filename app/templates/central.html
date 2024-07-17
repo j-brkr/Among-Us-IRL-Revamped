@@ -28,7 +28,7 @@
             <div id="votingBox">
                 {% for player in players %}
                     <div class="{{ 'playerVoteBox dead' if not player.alive else 'playerVoteBox' }}">
-                        <img src="static/default_player.png">
+                        <img src="static/default_player.png" onclick="playerSetAlive({{player.id}}, {{'false' if player.alive else 'true'}})">
                         <div><h2>{{player.user.name}}</h2></div>
                     </div>
                 {% endfor %}

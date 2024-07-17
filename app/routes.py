@@ -184,8 +184,9 @@ def interface_route(path):
 @app.route("/api/<path:path>", methods=['GET', 'POST', 'PUT'])
 def api(path):
     path_parts = path.split("/")
+    resource = path_parts[0]
     # relates to current game
-    if path_parts[0]=="game":
+    if resource=="game":
         # Get the current game and return 404 on failure
         active_game = Game.get_active_game()
         if active_game is None: 
@@ -203,10 +204,19 @@ def api(path):
         elif path_parts[1] == "imposter_count":
             response = {"imposter_count": active_game.imposters_alive()}
             return response
-    elif path_parts[0]=="player_task":
-        ptask_id = int(path_parts[1])
-        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==ptask_id))
-        if ptask is None: return "player task {} not found".format(ptask_id), 404
+    elif resource=="player":
+        id = int(path_parts[1])
+        player = Player.query.get(id)
+        if player is None: return "{} {} not found".format(resource, id), 404
+        p = request.get_json()
+        player.alive = p["alive"]
+        db.session.add(player)
+        db.session.commit()
+        return "success"
+    elif resource=="player_task":
+        id = int(path_parts[1])
+        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==id))
+        if ptask is None: return "{} {} not found".format(resource, id), 404
         p = request.get_json()
         ptask.completed = p["completed"]
         db.session.add(ptask)

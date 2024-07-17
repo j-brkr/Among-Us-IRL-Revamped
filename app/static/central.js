@@ -95,6 +95,19 @@ function emergencyPressed(){
     });
 }
 
+function playerSetAlive(playerId, alive){
+    let player_data = JSON.stringify({"alive": alive});
+    $.ajax({
+        url: "/api/player/" + playerId,
+        type: 'PUT',
+        data: player_data,
+        contentType: "application/json",
+        success: function (result){
+            location.reload();
+        }
+    });
+}
+
 function eject(playerId){
     if(playerId == -1){
         let impCount = "error";
