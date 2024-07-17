@@ -200,6 +200,9 @@ def api(path):
             players = db.session.scalars(active_game.players.select()).all()
             response = [player.as_dict() for player in players]
             return response
+        elif path_parts[1] == "imposter_count":
+            response = {"imposter_count": active_game.imposters_alive()}
+            return response
     elif path_parts[0]=="player_task":
         ptask_id = int(path_parts[1])
         ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==ptask_id))

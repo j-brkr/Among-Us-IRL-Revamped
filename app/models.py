@@ -99,6 +99,11 @@ class Game(db.Model):
     def emergency(self):
         self.status = "MEETING"
         db.session.commit()
+    
+    def imposters_alive(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        count = sum([(1 if player.role==1 else 0) for player in players if player.alive])
+        return count
 
     def player_of_user(self, user):
         player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))

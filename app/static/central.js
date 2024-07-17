@@ -97,7 +97,15 @@ function emergencyPressed(){
 
 function eject(playerId){
     if(playerId == -1){
-        ejectScreen("No one was ejected");
+        let impCount = "error";
+        $.post("/api/game/imposter_count", function(data){
+            console.log(data);
+            impCount = data["imposter_count"];
+            console.log(impCount);
+        })
+        .always(function(){
+            ejectScreen("No one was ejected", impCount);
+        });
     }
     else{
         $.post("command/EJECT", function(data){
@@ -109,16 +117,16 @@ function eject(playerId){
 
 let i = 1;
 let timeInterval;
-function ejectScreen(text){
+function ejectScreen(text, impCount){
     $( "#eject" ).css("display", "block");
     $( "#eject" ).css("opacity", "1");
-    setTimeout(ejectMessage, 1000, text);
-    
+    setTimeout(ejectMessage, 1500, text);
+    setTimeout(impostersRemaining, 5000, impCount);
 }
 
 function ejectMessage(text){
     $( '#ejectAudio' )[0].play();
-    i = 1;
+    i = 0;
     timeInterval = setInterval(typeEject, 100, text);
 }
 
@@ -128,4 +136,8 @@ function typeEject(text){
     if(i > text.length){
         clearInterval(timeInterval);
     }
+}
+
+function impostersRemaining(impCount){
+    $(" #ejectText ").append("<br>" + impCount + (impCount===1? " imposter":" imposters") + " remain");
 }

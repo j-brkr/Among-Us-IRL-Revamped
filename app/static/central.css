@@ -134,10 +134,10 @@ h1{
 
 #ejectText{
     position: fixed;
-    top: 40%;
+    top: 45%;
     left: 40%;
     margin: auto;
     text-align: center;
     color: white;
-    font-size: 20pt;
+    font-size: 22pt;
 }
