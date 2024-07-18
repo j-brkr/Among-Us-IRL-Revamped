@@ -1,47 +1,47 @@
 [
     {
-        "name": "Lisa",
-        "color": "#FF8EBA",
-        "pin": "1234"
-    },
-    {
-        "name": "Anna",
-        "color": "#212121",
-        "pin": "1234"
-    },
-    {
-        "name": "Annie",
-        "color": "#FF7F00",
-        "pin": "1234"
-    },
-    {
-        "name": "Bennie",
-        "color": "#D0FF00",
-        "pin": "1234"
-    },
-    {
-        "name": "Connor",
-        "color": "#00FFFF",
-        "pin": "1234"
-    },
-    {
-        "name": "Jeff",
-        "color": "#FFFFFF",
-        "pin": "1234"
-    },
-    {
-        "name": "Noel",
+        "name": "Joel",
         "color": "#0000FF",
         "pin": "1234"
     },
     {
-        "name": "Nabla",
-        "color": "#FFFF00",
+        "name": "Drew",
+        "color": "#FFFFA0",
         "pin": "1234"
     },
     {
-        "name": "Pam",
-        "color": "#663300",
+        "name": "Beth",
+        "color": "#FFFFFF",
+        "pin": "1234"
+    },
+    {
+        "name": "Sarah",
+        "color": "#0D4F54",
+        "pin": "1234"
+    },
+    {
+        "name": "Gabi",
+        "color": "#FF0000",
+        "pin": "1234"
+    },
+    {
+        "name": "Estella",
+        "color": "#CC8899",
+        "pin": "1234"
+    },
+    {
+        "name": "Taea",
+        "color": "#606060",
+        "pin": "1234"
+    },
+    {
+        "name": "Toren",
+        "color": "#A52A2A",
+        "pin": "1234"
+    },
+    {
+        "name": "Tash",
+        "color": "#00FFFF",
         "pin": "1234"
     },
     {
@@ -50,28 +50,33 @@
         "pin": "1234"
     },
     {
-        "name": "Felisha",
-        "color": "#FF7F00",
+        "name": "Myles",
+        "color": "#F0F0FF",
         "pin": "1234"
     },
     {
-        "name": "Cherry",
-        "color": "#202020",
+        "name": "Sophie",
+        "color": "#6F8FAF",
         "pin": "1234"
     },
     {
-        "name": "Ericknash",
-        "color": "#00A000",
+        "name": "Alicia",
+        "color": "#FFFF00",
         "pin": "1234"
     },
     {
-        "name": "Freyah",
-        "color": "#6C7A3A",
+        "name": "Maya",
+        "color": "#F5F5DC",
         "pin": "1234"
     },
     {
-        "name": "Hailee",
+        "name": "Charlotte P",
         "color": "#77ff00",
+        "pin": "1234"
+    },
+    {
+        "name": "Charlotte W",
+        "color": "#800000",
         "pin": "1234"
     }
 ]

@@ -42,10 +42,10 @@
     {"name": "Make Racoon Feed", "type": "S", "parts": 1, "room": "Laundry"},
     {"name": "Empty Garbage", "type": "S", "parts": 1, "room": "Laundry"},
 
-    {"name": "Divert Power", "type": "S", "parts": 1, "room": "Electical"},
-    {"name": "Charge Generator", "type": "L", "parts": 1, "room": "Electical"},
-    {"name": "Download Data", "type": "S", "parts": 1, "room": "Electical"},
-    {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Electical"},
+    {"name": "Divert Power", "type": "S", "parts": 1, "room": "Electrical"},
+    {"name": "Charge Generator", "type": "L", "parts": 1, "room": "Electrical"},
+    {"name": "Download Data", "type": "S", "parts": 1, "room": "Electrical"},
+    {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Electrical"},
 
     {"name": "Bang it out", "type": "S", "parts": 1, "room": "Builder's Pit"},
     {"name": "Nail it down", "type": "S", "parts": 1, "room": "Builder's Pit"},
