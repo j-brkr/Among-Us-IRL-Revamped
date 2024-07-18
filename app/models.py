@@ -113,7 +113,7 @@ class Game(db.Model):
     
     def get_imposters(self):
         players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
-        imposters = [(1 if player.role==1 else 0) for player in players if player.alive]
+        imposters = [player for player in players if player.alive and player.role==1]
         return imposters
     
     def imposters_alive(self):

@@ -1,11 +1,11 @@
 {% if player.role==0 %} <!--Crew-->
-    <img src="/static/reveal_crew.png">
+    <img class="fullscreen" src="/static/reveal_crew.png">
 {% elif player.role==1 %} <!--Imposter-->
-    <img src="/static/reveal_imposter.png">
+    <img class="fullscreen" src="/static/reveal_imposter.png">
     <div id="imposters">
-    {% for imposter in imposters%}
+    {% for imposter in imposters %}
         <div class="imposter">
-            <img src="/static/player_sprites/{{imposter.id}}.png">
+            <img src="/static/player_sprites/{{imposter.user.id}}.png">
             <h2>{{imposter.user.name}}</h2>
         </div>
     {% endfor %}

@@ -25,13 +25,13 @@ const lobby_page = {
     selector: "#lobby"
 }
 
-const role_reveal_page = {
+const reveal_page = {
     status: "REVEAL",
     title: "Role Reveal",
     selector: "#role-reveal",
     load: function(){
-        $.get("/role_reveal/{id}", function(data){
-            $( "#reveal" ).html(data);
+        $.get("/role-reveal", function(data){
+            $( "#role-reveal" ).html(data);
         });
     }
 }
@@ -63,6 +63,7 @@ const meeting_page = {
 
 const pages={
     "LOBBY": lobby_page,
+    "REVEAL": reveal_page,
     "GAME": game_page,
     "MEETING": meeting_page
 }
