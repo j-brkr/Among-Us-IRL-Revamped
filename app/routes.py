@@ -248,6 +248,12 @@ def command(command_string):
             return ("Cannot call emergency meeting, this game is in status: " + game.status), 403
         game.emergency()
         return "Emergency Called!", 200
+    elif command_string == "EJECTED":
+        if game.status != "MEETING":
+            return ("Cannot end emergency meeting, this game is in status: " + game.status), 403
+        game.status = "GAME"
+        db.session.commit()
+        return "Game resuming!", 200
 
     return "Unrecognized command: " + str(command_string), 404
 

@@ -7,7 +7,7 @@ $( document ).ready(function(){
 
 function updatePage(){
     $.get( "/api/game", function(game){
-        //console.log(game);
+        console.log(game["status"]);
         loadPage(game["status"]);
 
     })
@@ -146,6 +146,13 @@ function ejectScreen(text, impCount){
     $( "#eject" ).css("opacity", "1");
     setTimeout(ejectMessage, 1500, text);
     setTimeout(impostersRemaining, 5000, impCount);
+    setTimeout(function(){
+        $.post("command/EJECTED", function(data){
+            $( "#eject" ).css("opacity", "0");
+            updatePage();
+        });
+    }, 7000);
+    setTimeout(function(){$( "#eject" ).css("display", "none")}, 8000);
 }
 
 function ejectMessage(text){

@@ -35,7 +35,9 @@ const game_page = {
     status: "GAME",
     title: "Game",
     selector: "#game",
-    load: this.update,
+    load: function(){
+        this.update();
+    },
     update: function(){
         //$( "#taskBox" ).empty();
         $.get("/player-task_box", function(data){
