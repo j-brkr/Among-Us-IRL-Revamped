@@ -78,6 +78,14 @@ function hideCrewMap(){
     $( " #taskMap ").css("display", "none");
 }
 
+function showImposterMap(){
+    $( " #sabotageMap ").css("display", "block");
+}
+
+function hideImposterMap(){
+    $( " #sabotageMap ").css("display", "none");
+}
+
 function taskClick(playerTaskId, completed){
     let put_data = JSON.stringify({"completed": completed});
     console.log(put_data);
