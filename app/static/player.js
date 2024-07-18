@@ -70,6 +70,14 @@ function loadPage(status){
     if("load" in page) page.load();
 }
 
+function showCrewMap(){
+    $( " #taskMap ").css("display", "block");
+}
+
+function hideCrewMap(){
+    $( " #taskMap ").css("display", "none");
+}
+
 function taskClick(playerTaskId, completed){
     let put_data = JSON.stringify({"completed": completed});
     console.log(put_data);
