@@ -117,8 +117,8 @@ async function playerSetAlive(playerId, alive){
 }
 
 function eject(playerId){
-    let impCount = "error";
-    let text = "DEFAULT EJECT MESSAGE";
+    let impCount = -1;
+    let text = "DEFAULT";
     playerSetAlive(playerId, false).then(function(player){
         console.log(player);
         if(playerId == -1){
@@ -142,6 +142,7 @@ function eject(playerId){
 let i = 1;
 let timeInterval;
 function ejectScreen(text, impCount){
+    $( "#ejectText" ).empty();
     $( "#eject" ).css("display", "block");
     $( "#eject" ).css("opacity", "1");
     setTimeout(ejectMessage, 1500, text);
