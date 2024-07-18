@@ -208,18 +208,20 @@ def api(path):
         id = int(path_parts[1])
         player = Player.query.get(id)
         if player is None: return "{} {} not found".format(resource, id), 404
-        p = request.get_json()
-        player.alive = p["alive"]
-        db.session.add(player)
-        db.session.commit()
-        return "success"
+        if request.method == 'PUT':
+            p = request.get_json()
+            player.alive = p["alive"]
+            db.session.add(player)
+            db.session.commit()
+        return player.as_dict()
     elif resource=="player_task":
         id = int(path_parts[1])
         ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==id))
         if ptask is None: return "{} {} not found".format(resource, id), 404
-        p = request.get_json()
-        ptask.completed = p["completed"]
-        db.session.add(ptask)
+        if request.method=='PUT':
+            p = request.get_json()
+            ptask.completed = p["completed"]
+            db.session.add(ptask)
         db.session.commit()
         return "success"
     return "The resource {} could not be found".format(path), 404

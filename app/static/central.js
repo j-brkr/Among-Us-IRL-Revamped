@@ -95,36 +95,47 @@ function emergencyPressed(){
     });
 }
 
-function playerSetAlive(playerId, alive){
+function togglePlayerAlive(playerId, alive){
+    playerSetAlive(playerId, alive).then(function(){
+        location.reload();
+    })
+}
+
+async function playerSetAlive(playerId, alive){
+    if(playerId==-1) return;
     let player_data = JSON.stringify({"alive": alive});
-    $.ajax({
+    let player = await $.ajax({
         url: "/api/player/" + playerId,
         type: 'PUT',
         data: player_data,
         contentType: "application/json",
         success: function (result){
-            location.reload();
+            return result
         }
     });
+    return player;
 }
 
 function eject(playerId){
-    if(playerId == -1){
-        let impCount = "error";
+    let impCount = "error";
+    let text = "DEFAULT EJECT MESSAGE";
+    playerSetAlive(playerId, false).then(function(player){
+        console.log(player);
+        if(playerId == -1){
+            text = "No one was ejected";
+        }
+        else{
+            text = player["user"]["name"] + " was " + (player["role"]===1? "an Imposter" : "not an Imposter");
+        }
         $.post("/api/game/imposter_count", function(data){
             console.log(data);
             impCount = data["imposter_count"];
             console.log(impCount);
         })
         .always(function(){
-            ejectScreen("No one was ejected", impCount);
+            ejectScreen(text, impCount);
         });
-    }
-    else{
-        $.post("command/EJECT", function(data){
-            updatePage();
-        });
-    }
+    });
 }
 
 
@@ -152,5 +163,5 @@ function typeEject(text){
 }
 
 function impostersRemaining(impCount){
-    $(" #ejectText ").append("<br>" + impCount + (impCount===1? " imposter":" imposters") + " remain");
+    $(" #ejectText ").append("<br>" + impCount + (impCount===1? " imposter remains":" imposters remain"));
 }
