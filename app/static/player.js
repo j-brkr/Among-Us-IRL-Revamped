@@ -28,7 +28,12 @@ const lobby_page = {
 const role_reveal_page = {
     status: "REVEAL",
     title: "Role Reveal",
-    selector: "#role-reveal"
+    selector: "#role-reveal",
+    load: function(){
+        $.get("/role_reveal/{id}", function(data){
+            $( "#reveal" ).html(data);
+        });
+    }
 }
 
 const game_page = {

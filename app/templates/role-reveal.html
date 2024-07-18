@@ -1,0 +1,7 @@
+{% if player.role==0 %} <!--Crew-->
+    <img src="/static/reveal_crew.png">
+{% elif player.role==1 %} <!--Imposter-->
+    <img src="/static/reveal_imposter.png">
+{% else %}
+    "Invalid role"
+{% endif %}

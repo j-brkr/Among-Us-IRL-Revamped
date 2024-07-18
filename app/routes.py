@@ -96,20 +96,32 @@ def player():
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
     return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks)
 
+@app.route('/role-reveal')
+@login_required
+def role_reveal():
+    # Get current game
+    game = Game.get_active_game()
+    if game is None: return "No active game", 404
+    
+    # Get player
+    player = game.player_of_user(current_user)
+
+    imposters = []
+
+    return render_template("role-reveal.html", imposters=imposters)
+
 @app.route('/player-task_box')
 @login_required
 def task_box():
     # Get current game
     game = Game.get_active_game()
-    if game is None:
-        return "No active game", 404
+    if game is None: return "No active game", 404
     
     # Get player
     player = game.player_of_user(current_user)
 
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
     return render_template("player-task_box.html", player=player, tasks=tasks)
-
 
 # Gamemaster
 

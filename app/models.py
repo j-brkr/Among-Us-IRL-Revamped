@@ -65,6 +65,17 @@ class Game(db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
+    def check_win(self):
+        if self.imposters_alive() < 1:
+            self.status = "CREW_WIN"
+            self.time_finished = datetime.now(timezone.utc)
+            db.session.commit()
+        
+        if self.imposters_alive() >= self.crew_alive():
+            self.status = "IMPOSTER_WIN"
+            self.time_finished = datetime.now(timezone.utc)
+            db.session.commit()
+
     def get_active_game():
         return db.session.scalar(sa.select(Game).where(Game.active))
     
@@ -103,6 +114,11 @@ class Game(db.Model):
     def imposters_alive(self):
         players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
         count = sum([(1 if player.role==1 else 0) for player in players if player.alive])
+        return count
+    
+    def crew_alive(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        count = sum([(1 if player.role==0 else 0) for player in players if player.alive])
         return count
 
     def player_of_user(self, user):
