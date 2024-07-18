@@ -1,15 +1,54 @@
 [
-    {"name": "Charge Generator", "type": "S", "parts": 1, "room": "Launchpad"},
-    {"name": "Measure Weather", "type": "S", "parts": 1, "room": "Greenhouse"},
-    {"name": "Monitor Garden", "type": "S", "parts": 1, "room": "Greenhouse"},
-    {"name": "Grease Hubcap", "type": "S", "parts": 1, "room": "Greenhouse"},
-    {"name": "Start Reactor", "type": "L", "parts": 1, "room": "Reactor"},
-    {"name": "Start Reactor 2", "type": "L", "parts": 1, "room": "Reactor"},
-    {"name": "Start Reactor 3", "type": "L", "parts": 1, "room": "Reactor"},
-    {"name": "Unlock Manifolds", "type": "S", "parts": 1, "room": "Reactor"},
-    {"name": "Enter ID Code", "type": "C", "parts": 1, "room": "Security"},
-    {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Security"},
-    {"name": "Fix Wines", "type": "C", "parts": 1, "room": "Security"},
-    {"name": "Store Surveillance System", "type": "S", "parts": 1, "room": "Security"},
-    {"name": "Clean O2 Filter", "type": "S", "parts": 1, "room": "O2"}
+    {"name": "Groom Racoons", "type": "S", "parts": 1, "room": "Porch"},
+    {"name": "Feed Racoons", "type": "S", "parts": 1, "room": "Porch"},
+    {"name": "Empty Garbage", "type": "S", "parts": 1, "room": "Porch"},
+
+    {"name": "Water Roses", "type": "L", "parts": 1, "room": "Garden"},
+    {"name": "Record Temperature", "type": "L", "parts": 1, "room": "Garden"},
+
+    {"name": "Practice Poses", "type": "S", "parts": 1, "room": "Showgirls' Room"},
+    {"name": "Polish Trophies", "type": "S", "parts": 1, "room": "Showgirls' Room"},
+    {"name": "Resignation Letter", "type": "L", "parts": 1, "room": "Showgirls' Room"},
+    {"name": "Scar shoes", "type": "L", "parts": 1, "room": "Showgirls' Room"},
+
+    {"name": "Download data", "type": "S", "parts": 1, "room": "Producers' Lounge"},
+    {"name": "Accept Diverted Power", "type": "S", "parts": 1, "room": "Producers' Lounge"},
+    {"name": "Enter ID Code", "type": "C", "parts": 1, "room": "Receiption"},
+    {"name": "Monitor Staff", "type": "L", "parts": 1, "room": "Producers' Lounge"},
+    {"name": "Tax", "type": "L", "parts": 1, "room": "Producers' Lounge"},
+    {"name": "Have fun with {player}", "type": "L", "parts": 1, "room": "Producers' Lounge"},
+
+    {"name": "Build Fanbase", "type": "L", "parts": 1, "room": "Changeroom"},
+    {"name": "Brainstorm Tiktok Ideas", "type": "S", "parts": 1, "room": "Changeroom"},
+    {"name": "Practice Signature", "type": "S", "parts": 1, "room": "Changeroom"},
+
+    {"name": "Skipping Rope", "type": "L", "parts": 1, "room": "Gym"},
+    {"name": "Weights", "type": "L", "parts": 1, "room": "Gym"},
+    {"name": "Plank", "type": "L", "parts": 1, "room": "Gym"},
+    {"name": "Piano", "type": "L", "parts": 1, "room": "Gym"},
+
+    {"name": "Sort Music", "type": "L", "parts": 1, "room": "Receiption"},
+    {"name": "Upload Data", "type": "S", "parts": 1, "room": "Receiption"},
+    {"name": "Scan Card", "type": "C", "parts": 1, "room": "Receiption"},
+    {"name": "Call Eloise", "type": "L", "parts": 1, "room": "Receiption"},
+
+    {"name": "Accept Diverted Power", "type": "S", "parts": 1, "room": "Kitchen"},
+    {"name": "Download Data", "type": "S", "parts": 1, "room": "Kitchen"},
+    {"name": "Microwave", "type": "L", "parts": 1, "room": "Kitchen"},
+    {"name": "Elimate Gluten", "type": "L", "parts": 1, "room": "Kitchen"},
+
+    {"name": "Plunge Bucket", "type": "S", "parts": 1, "room": "Laundry"},
+    {"name": "Dusting", "type": "S", "parts": 1, "room": "Laundry"},
+    {"name": "Make Racoon Feed", "type": "S", "parts": 1, "room": "Laundry"},
+    {"name": "Empty Garbage", "type": "S", "parts": 1, "room": "Laundry"},
+
+    {"name": "Divert Power", "type": "S", "parts": 1, "room": "Electical"},
+    {"name": "Charge Generator", "type": "L", "parts": 1, "room": "Electical"},
+    {"name": "Download Data", "type": "S", "parts": 1, "room": "Electical"},
+    {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Electical"},
+
+    {"name": "Bang it out", "type": "S", "parts": 1, "room": "Builder's Pit"},
+    {"name": "Nail it down", "type": "S", "parts": 1, "room": "Builder's Pit"},
+    {"name": "Screw it in", "type": "S", "parts": 1, "room": "Builder's Pit"},
+    {"name": "Go to town", "type": "S", "parts": 1, "room": "Builder's Pit"}
 ]

@@ -7,3 +7,4 @@ pyvenv.cfg
 app.db
 test_data.py
 app/static/maps/
+app/static/BIB Sounds/
