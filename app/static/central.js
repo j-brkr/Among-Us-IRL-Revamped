@@ -50,7 +50,7 @@ const reveal_page = {
         if(timeCounter === 5){
             // Reveal time is up
             $.post("/command/END_REVEAL", function(data){
-                alert(data);
+                //alert(data);
                 updatePage();
             });
         }
