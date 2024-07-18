@@ -1,12 +1,10 @@
-/*html{
+html{
 	height: 100vh;
-}*/
+}
 
 body{
-	background-image: url("background.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-color: #0a2f74;
+	background-image: url("background.jpg");
+	background-color: black;
 	font-family: arial;
 	color: white;
 	font-size: 100%;
@@ -25,21 +23,12 @@ body{
 }
 
 .title{
-	font-family: 'Sunborn';
-	font-size: 6vh;/*10vh;*/
+	font-family: 'Joff';
+	font-size: 10vh;
 	text-align: center;
-	color: rgb(252 222 195);
-	/*-webkit-text-fill-color: rgb(252 222 195);
-	-webkit-text-stroke: 2px;*/
-	text-shadow: 	-10px  10px 2px #0e2c3f,
-					-5px -5px 2px #0e2c3f, 
-					 5px -5px 2px #0e2c3f,
-					 5px  5px 2px #0e2c3f;
-	background-color: rgba(234, 98, 44);
-	border-top: 15px solid rgb(208 97 48);
-	border-bottom: 30px solid rgb(194 34 46);
-	margin-bottom: 30px;
-	padding: 10px 0;
+	background-color: rgb(255 255 255 / 60%);
+	margin-bottom: 5px;
+	padding-top: 5px;
     margin-top: 0px;
 }
 
@@ -62,7 +51,7 @@ footer{
 	width: 50vw;
 	font-size: 4vh;
 	text-align:center;
-	border: 0.4vh solid black;
+	border: 1vh solid black;
 	border-radius: 3vw;
 }
 
@@ -164,6 +153,6 @@ footer{
 */
 
 @font-face {
-	font-family: "Sunborn";
-	src: url("sunborn.otf");
+	font-family: "Joff";
+	src: url("joff.ttf");
 }

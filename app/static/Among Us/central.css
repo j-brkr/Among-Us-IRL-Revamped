@@ -1,0 +1,143 @@
+html{
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+}
+
+html, body{
+    margin: 0;
+}
+
+h1{
+    text-align: center;
+}
+
+.page{
+    display: none;
+}
+
+#lobby{
+    color: lightgrey
+}
+
+#lobby #startGame{
+    display: block;
+    position: fixed;
+    right: 10%;
+    bottom: 10%;
+    width: 20%;
+    height: 10%
+}
+
+#lobby #playerList{
+    display: flex;
+    flex-direction: column;
+}
+
+#lobby .player{
+    color: white;
+    width: 300px;
+    font-size: x-large;
+    text-align: center;
+}
+
+#role-reveal img{
+    height: 99vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+#emergencyButtonImage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 99vh
+}
+
+#emergencyButton{
+    display: block;
+    position: relative;
+    top: -75vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40vh;
+    height: 40vh;
+    background-color: #FF000010;
+}
+
+/* Meeting page */
+
+#voting h1{
+    font-size: 7vh;
+}
+
+#votingBox{
+    margin: auto;
+    width: 92%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 3%;
+    row-gap: 4%;
+}
+
+.playerVoteBox{
+    display: flex;
+    background-color: rgb(253, 246, 238);
+    height: 12vh;
+    align-items: center;
+    text-align: center;
+    font-size: 3vh;
+    border: solid grey 2px;
+    border-radius: 2vh;
+}
+
+.playerVoteBox div{
+    width: 100%;
+}
+
+.playerVoteBox img{
+    margin: 2.2%;
+    height: 70%;
+}
+
+.playerVoteBox.dead{
+    background-color: rgb(126, 126, 126);
+}
+
+.playerVoteBox.dead img{
+    opacity: 0.5;
+}
+
+#skipVote{
+    margin: 1vh 1vw;
+    position: fixed;
+    bottom: 4vh;
+    left: 4vh;
+    background-color: darkgrey;
+    font-size: x-large;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+/* Eject screen */
+#eject{
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("background.jpg");
+}
+
+#ejectText{
+    position: fixed;
+    top: 45%;
+    left: 40%;
+    margin: auto;
+    text-align: center;
+    color: white;
+    font-size: 22pt;
+}
