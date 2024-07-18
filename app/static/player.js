@@ -83,3 +83,9 @@ function taskClick(playerTaskId, completed){
         }
     });
 }
+
+function report(){
+    $.post("command/EMERGENCY", function(data){
+        checkStatus();
+    });
+}
