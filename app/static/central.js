@@ -67,11 +67,23 @@ const meeting_page = {
     backgroundColor: "rgb(0 177 255)"
 }
 
+const crew_win_page = {
+    selector: "#crewWin",
+    backgroundColor: "rgb(0 0 0)"
+}
+
+const imposter_win_page = {
+    selector: "#imposterWin",
+    backgroundColor: "rgb(0 0 0)"
+}
+
 const pages={
     "LOBBY": lobby_page,
     "GAME": game_page,
     "MEETING": meeting_page,
-    "REVEAL": reveal_page
+    "REVEAL": reveal_page,
+    "CREW_WIN": crew_win_page,
+    "IMPOSTER_WIN": imposter_win_page
 }
 
 function loadPage(status){
@@ -172,4 +184,10 @@ function typeEject(text){
 
 function impostersRemaining(impCount){
     $(" #ejectText ").append("<br>" + impCount + (impCount===1? " imposter remains":" imposters remain"));
+}
+
+function endGame(){
+    $.post("command/END_GAME", function(data){
+        updatePage();
+    });
 }

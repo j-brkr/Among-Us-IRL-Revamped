@@ -106,9 +106,9 @@ def role_reveal():
     # Get player
     player = game.player_of_user(current_user)
 
-    imposters = []
+    imposters = game.get_imposters()
 
-    return render_template("role-reveal.html", imposters=imposters)
+    return render_template("role-reveal.html", player=player, imposters=imposters)
 
 @app.route('/player-task_box')
 @login_required
@@ -198,9 +198,9 @@ def api(path):
     path_parts = path.split("/")
     resource = path_parts[0]
     # relates to current game
+    # Get the current game and return 404 on failure
+    active_game = Game.get_active_game()
     if resource=="game":
-        # Get the current game and return 404 on failure
-        active_game = Game.get_active_game()
         if active_game is None: 
             return url_for("settings")
 
@@ -225,6 +225,7 @@ def api(path):
             player.alive = p["alive"]
             db.session.add(player)
             db.session.commit()
+            active_game.check_win()
         return player.as_dict()
     elif resource=="player_task":
         id = int(path_parts[1])
@@ -266,6 +267,13 @@ def command(command_string):
         game.status = "GAME"
         db.session.commit()
         return "Game resuming!", 200
+    elif command_string == "END_GAME":
+        #if game.status != "MEETING":
+        #    return ("Cannot end emergency meeting, this game is in status: " + game.status), 403
+        game.status = "END"
+        game.active = False
+        db.session.commit()
+        return "Game ended!", 200
 
     return "Unrecognized command: " + str(command_string), 404
 

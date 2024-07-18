@@ -141,3 +141,13 @@ h1{
     color: white;
     font-size: 22pt;
 }
+
+.winText{
+    position: fixed;
+    top: 45%;
+    left: 40%;
+    margin: auto;
+    text-align: center;
+    color: white;
+    font-size: 22pt;
+}

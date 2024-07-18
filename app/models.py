@@ -111,6 +111,11 @@ class Game(db.Model):
         self.status = "MEETING"
         db.session.commit()
     
+    def get_imposters(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        imposters = [(1 if player.role==1 else 0) for player in players if player.alive]
+        return imposters
+    
     def imposters_alive(self):
         players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
         count = sum([(1 if player.role==1 else 0) for player in players if player.alive])
