@@ -2,7 +2,7 @@ let page = "NONE"
 
 $( document ).ready(function(){
     checkStatus();
-    setInterval(checkStatus, 2000);
+    setInterval(checkStatus, 1500);
 })
 
 function checkStatus(){
