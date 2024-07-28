@@ -123,6 +123,13 @@ def task_box():
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
     return render_template("player-task_box.html", player=player, tasks=tasks)
 
+@app.route('/voting-grid')
+def voting_grid():
+    game = Game.get_active_game()
+    if game is None: return "No game running", 404
+    players = db.session.scalars(sa.select(Player).where(Player.game_id==game.id)).all()
+    return render_template("voting-grid.html", players=players)
+
 # Gamemaster
 
 @app.route('/directories')
