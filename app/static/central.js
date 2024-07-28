@@ -1,15 +1,19 @@
 let timeCounter = -1;
+let page = "MEETING";
+let discussion_time = 300;
 
 $( document ).ready(function(){
-    updatePage();
-    setInterval(updatePage, 1000);
+    checkStatus();
+    setInterval(checkStatus, 1000);
 });
 
-function updatePage(){
+function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game["status"]);
-        loadPage(game["status"]);
-
+        if(page.status != game["status"]){
+            loadPage(game["status"]);
+        }
+        page.update();
     })
     .fail(function(jqXHR, textStatus, errorThrown){
         console.log(JSON.stringify(jqXHR));
@@ -18,6 +22,7 @@ function updatePage(){
 }
 
 const lobby_page = {
+    status: "LOBBY",
     selector: "#lobby",
     backgroundColor: "black",
     update: function(){
@@ -38,6 +43,7 @@ const lobby_page = {
 }
 
 const reveal_page = {
+    game: "REVEAL",
     selector: "#role-reveal",
     backgroundColor: "black",
     update: function(){
@@ -47,32 +53,43 @@ const reveal_page = {
             audio = $( "#revealAudio" )[0];
             audio.play();
         }
-        if(timeCounter === 5){
+        if(timeCounter === 8){
             // Reveal time is up
             $.post("/command/END_REVEAL", function(data){
                 //alert(data);
-                updatePage();
+                checkStatus();
             });
         }
     }
 }
 
 const game_page = {
+    status: "GAME",
     selector: "#game",
     backgroundColor: "#264775"
 }
 
 const meeting_page = {
+    status: "MEETING",
     selector: "#voting",
-    backgroundColor: "rgb(0 177 255)"
+    backgroundColor: "rgb(0 177 255)",
+    load: function(){
+        location.reload();
+    },
+    update: function(){
+        discussion_time--;
+        $( "#discussionTimer" ).html("Discussion Time: " + Math.floor(discussion_time/60) + ":" + discussion_time%60);
+    }
 }
 
 const crew_win_page = {
+    status: "CREW_WIN",
     selector: "#crewWin",
     backgroundColor: "rgb(0 0 0)"
 }
 
 const imposter_win_page = {
+    status: "IMPOSTER_WIN",
     selector: "#imposterWin",
     backgroundColor: "rgb(0 0 0)"
 }
@@ -91,19 +108,20 @@ function loadPage(status){
     let page = pages[status];
     $( page.selector ).css("display", "block");
     $( "html" ).css("background-color", page.backgroundColor);
+    //if("load" in page) page.load();
     if("update" in page) page.update();
 }
 
 function startGame(){
     $.post("command/START_GAME", function(data){
         timeCounter = -1;
-        updatePage();
+        checkStatus();
     });
 }
 
 function emergencyPressed(){
     $.post("command/EMERGENCY", function(data){
-        updatePage();
+        checkStatus();
     });
 }
 
@@ -162,7 +180,7 @@ function ejectScreen(text, impCount){
     setTimeout(function(){
         $.post("command/EJECTED", function(data){
             $( "#eject" ).css("opacity", "0");
-            updatePage();
+            checkStatus();
         });
     }, 7000);
     setTimeout(function(){$( "#eject" ).css("display", "none")}, 8000);
@@ -188,6 +206,6 @@ function impostersRemaining(impCount){
 
 function endGame(){
     $.post("command/END_GAME", function(data){
-        updatePage();
+        checkStatus();
     });
 }
