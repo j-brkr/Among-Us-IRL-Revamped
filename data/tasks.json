@@ -6,18 +6,6 @@
     {"name": "Water Roses", "type": "L", "parts": 1, "room": "Garden"},
     {"name": "Record Temperature", "type": "L", "parts": 1, "room": "Garden"},
 
-    {"name": "Practice Poses", "type": "S", "parts": 1, "room": "Showgirls' Room"},
-    {"name": "Polish Trophies", "type": "S", "parts": 1, "room": "Showgirls' Room"},
-    {"name": "Resignation Letter", "type": "L", "parts": 1, "room": "Showgirls' Room"},
-    {"name": "Scar shoes", "type": "L", "parts": 1, "room": "Showgirls' Room"},
-
-    {"name": "Download data", "type": "S", "parts": 1, "room": "Producers' Lounge"},
-    {"name": "Accept Diverted Power", "type": "S", "parts": 1, "room": "Producers' Lounge"},
-    {"name": "Enter ID Code", "type": "C", "parts": 1, "room": "Receiption"},
-    {"name": "Monitor Staff", "type": "L", "parts": 1, "room": "Producers' Lounge"},
-    {"name": "Tax", "type": "L", "parts": 1, "room": "Producers' Lounge"},
-    {"name": "Have fun with {player}", "type": "L", "parts": 1, "room": "Producers' Lounge"},
-
     {"name": "Build Fanbase", "type": "L", "parts": 1, "room": "Changeroom"},
     {"name": "Brainstorm Tiktok Ideas", "type": "S", "parts": 1, "room": "Changeroom"},
     {"name": "Practice Signature", "type": "S", "parts": 1, "room": "Changeroom"},
@@ -46,9 +34,4 @@
     {"name": "Charge Generator", "type": "L", "parts": 1, "room": "Electrical"},
     {"name": "Download Data", "type": "S", "parts": 1, "room": "Electrical"},
     {"name": "Fix Wires", "type": "C", "parts": 1, "room": "Electrical"},
-
-    {"name": "Bang it out", "type": "S", "parts": 1, "room": "Builder's Pit"},
-    {"name": "Nail it down", "type": "S", "parts": 1, "room": "Builder's Pit"},
-    {"name": "Screw it in", "type": "S", "parts": 1, "room": "Builder's Pit"},
-    {"name": "Go to town", "type": "S", "parts": 1, "room": "Builder's Pit"}
 ]
