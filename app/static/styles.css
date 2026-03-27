@@ -58,6 +58,24 @@ footer{
 
 /* Lobby */
 
+#color-picker{
+	width: 75%;
+	margin: auto;
+	padding: 25px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background: rgba(100, 100, 100, 0.4);
+	border-radius: 20px;
+}
+
+.color-choice{
+	margin: 10px;
+	width: 10vh;
+	height: 10vh;
+	border-radius: 4vw;
+}
+
 /* Role Reveal */
 
 
