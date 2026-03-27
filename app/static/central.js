@@ -1,5 +1,5 @@
 let timeCounter = -1;
-let page = "MEETING";
+let page = null;
 let discussion_time = 300;
 
 $( document ).ready(function(){
@@ -10,7 +10,7 @@ $( document ).ready(function(){
 function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game["status"]);
-        if(page.status != game["status"]){
+        if(page === null || page.status != game["status"]){
             loadPage(game["status"]);
         }
         page.update();
@@ -74,7 +74,9 @@ const meeting_page = {
     selector: "#voting",
     backgroundColor: "rgb(0 177 255)",
     load: function(){
-        location.reload();
+        $.get("/voting-grid", function(data){
+            $( "#votingBox" ).html(data);
+        });
     },
     update: function(){
         discussion_time--;
@@ -105,10 +107,10 @@ const pages={
 
 function loadPage(status){
     $( ".page" ).css("display", "none");
-    let page = pages[status];
+    page = pages[status];
     $( page.selector ).css("display", "block");
     $( "html" ).css("background-color", page.backgroundColor);
-    //if("load" in page) page.load();
+    if("load" in page) page.load();
     if("update" in page) page.update();
 }
 
