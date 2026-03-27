@@ -11,23 +11,11 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    return redirect(url_for("select_user"))
-
-@app.route('/select_user')
-def select_user():
-    '''
-    User selection page
-    '''
-    # Log out if already signed in
-    if current_user.is_authenticated:
-        logout_user()
-    
-    users = db.session.scalars(sa.select(User)).all()
-    return render_template("select_user.html", title="Select User", users=users)
+    return redirect(url_for("sign_in"))
 
 # GET request
-@app.get('/sign_in/<username>')
-def sign_in(username):
+@app.get('/sign_in')
+def sign_in():
     '''
     Sign in page
     '''
@@ -35,39 +23,32 @@ def sign_in(username):
     if current_user.is_authenticated:
         return redirect(url_for('player'))
     
-    # Find user object and check it exists
-    user = db.session.scalar( 
-        sa.select(User).where(User.name == username))
-    if user is None:
-        flash('Invalid user')
-        return redirect(url_for('select_user'))
-    
-    return render_template("sign_in.html", title="Sign In", user=user)
+    return render_template("sign_in.html", title="Sign In")
 
-@app.post('/sign_in/<username>')
-def sign_in_post(username):
+@app.post('/sign_in')
+def sign_in_post():
     '''
     Handles POST requests to sign_in. 
     This runs when the PIN is submitted
     '''
+    # Get the pin and check it is correct
+    key, username = request.get_data(as_text=True).split("=")
+    
     # Find user object and check it exists
     user = db.session.scalar( 
         sa.select(User).where(User.name == username))
-    if user is None:
-        flash('Invalid user')
-        return redirect(url_for('select_user'))
     
-    # Get the pin and check it is correct
-    key, value = request.get_data(as_text=True).split("=")
-    if not user.check_pin(value):
-        flash('Incorrect PIN')
-        return redirect(url_for('sign_in', username=username))
+    if user is None:
+        # Create new user
+        user = User(name=username, color="#00A000")
+        db.session.add(user)
+        db.session.commit()
     
     # Get current game
     active_game = Game.get_active_game()
     if active_game is None:
         flash('No active game')
-        return redirect(url_for('sign_in', username=username))
+        return redirect(url_for('sign_in'))
     
     login_user(user, remember=True)
 
