@@ -1,3 +1,5 @@
+import itertools
+
 from flask import flash, render_template, redirect, url_for, request
 from app import app
 from flask_login import current_user, login_user, logout_user, login_required
@@ -75,7 +77,7 @@ def player():
         db.session.commit()
 
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
-    return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks)
+    return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks, colors=[f"hsl({h}deg,100%,{l}%)" for h, l in itertools.product(range(0, 360, 45), [50, 75])] + ["#F0F0F0", "#909090", "#202020"])
 
 @app.route('/role-reveal')
 @login_required
@@ -225,15 +227,26 @@ def api(path):
             db.session.add(ptask)
         db.session.commit()
         return "success"
-    return "The resource {} could not be found".format(path), 404
+    elif resource=="user":
+        if len(path_parts) >= 2:
+            user_id = int(path_parts[1])
+            user = User.query.get(user_id)
+            if user:
+                if len(path_parts) == 4 and path_parts[2] == "color":
+                    color = path_parts[3]
+                    user.color = color
+                    db.session.commit()
+                    return "success"
+    return f"The resource {path} could not be found", 404
 
 @app.route("/command/<string:command_string>", methods=['GET', 'POST', 'PUT'])
 def command(command_string):
     game = Game.get_active_game()
+    if not game:
+        return "No active game", 404
     if command_string=="START_GAME":
         if game.status != "LOBBY":
             return ("Cannot start game, this game is in status: " + game.status), 403
-
         game.assign_roles()
         game.assign_tasks()
         game.status = "REVEAL"

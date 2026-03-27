@@ -92,6 +92,12 @@ function hideImposterMap(){
     $( " #sabotageMap ").css("display", "none");
 }
 
+function changeColor(id, color){
+    $.post("api/user/" + id + "/color/" + color, function(data){
+        $("#username").css("color", color)
+    });
+}
+
 function taskClick(playerTaskId, completed){
     let put_data = JSON.stringify({"completed": completed});
     console.log(put_data);

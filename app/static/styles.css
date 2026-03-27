@@ -56,19 +56,24 @@ footer{
 	right: 0;
 }
 
-/* Select User */
+/* Lobby */
 
-#menu TD{
-	width: 50vw;
-	font-size: 4vh;
-	text-align:center;
-	border: 0.4vh solid black;
-	border-radius: 3vw;
+#color-picker{
+	width: 75%;
+	margin: auto;
+	padding: 25px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background: rgba(100, 100, 100, 0.4);
+	border-radius: 20px;
 }
 
-#menu a{
-	color: white;
-	text-decoration: none;
+.color-choice{
+	margin: 10px;
+	width: 10vh;
+	height: 10vh;
+	border-radius: 4vw;
 }
 
 /* Role Reveal */
