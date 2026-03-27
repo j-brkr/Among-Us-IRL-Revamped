@@ -1,82 +1,66 @@
 [
     {
         "name": "Noel",
-        "color": "#0000FF",
-        "pin": "1234"
+        "color": "#0000FF"
     },
     {
         "name": "Andrew",
-        "color": "#FFFFA0",
-        "pin": "1234"
+        "color": "#FFFFA0"
     },
     {
         "name": "Bethanie",
-        "color": "#FFFFFF",
-        "pin": "1234"
+        "color": "#FFFFFF"
     },
     {
         "name": "Sara",
-        "color": "#0D4F54",
-        "pin": "1234"
+        "color": "#0D4F54"
     },
     {
         "name": "Gabriella",
-        "color": "#FF0000",
-        "pin": "1234"
+        "color": "#FF0000"
     },
     {
         "name": "Esther",
-        "color": "#CC8899",
-        "pin": "1234"
+        "color": "#CC8899"
     },
     {
         "name": "Tee",
-        "color": "#606060",
-        "pin": "1234"
+        "color": "#606060"
     },
     {
         "name": "Tora",
-        "color": "#A52A2A",
-        "pin": "1234"
+        "color": "#A52A2A"
     },
     {
         "name": "Tan",
-        "color": "#00FFFF",
-        "pin": "1234"
+        "color": "#00FFFF"
     },
     {
         "name": "Mile",
-        "color": "#F0F0FF",
-        "pin": "1234"
+        "color": "#F0F0FF"
     },
     {
         "name": "Sophia",
-        "color": "#6F8FAF",
-        "pin": "1234"
+        "color": "#6F8FAF"
     },
     {
         "name": "Ali",
-        "color": "#FFFF00",
-        "pin": "1234"
+        "color": "#FFFF00"
     },
     {
         "name": "Myan",
-        "color": "#F5F5DC",
-        "pin": "1234"
+        "color": "#F5F5DC"
     },
     {
         "name": "Parson",
-        "color": "#77ff00",
-        "pin": "1234"
+        "color": "#77ff00"
     },
     {
         "name": "William",
-        "color": "#800000",
-        "pin": "1234"
+        "color": "#800000"
     },
     {
         "name": "James",
-        "color": "#808080",
-        "pin": "1234"
+        "color": "#808080"
     }
 ]
