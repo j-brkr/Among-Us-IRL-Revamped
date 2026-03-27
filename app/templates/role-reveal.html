@@ -1,0 +1,15 @@
+{% if player.role==0 %} <!--Crew-->
+    <img class="fullscreen" src="/static/reveal_crew.png">
+{% elif player.role==1 %} <!--Imposter-->
+    <img class="fullscreen" src="/static/reveal_imposter.png">
+    <div id="imposters">
+    {% for imposter in imposters %}
+        <div class="imposter">
+            <img src="/static/player_sprites/{{imposter.user.id}}.png">
+            <h2>{{imposter.user.name}}</h2>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    "Invalid role"
+{% endif %}

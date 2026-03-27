@@ -109,13 +109,6 @@ h1{
     opacity: 0.5;
 }
 
-#discussionTimer{
-    position: fixed;
-    bottom: 4vh;
-    right: 4vh;
-    color: white;
-}
-
 #skipVote{
     margin: 1vh 1vw;
     position: fixed;
@@ -136,20 +129,10 @@ h1{
     top: 0;
     width: 100vw;
     height: 100vh;
-    background-image: url("background.png");
+    background-image: url("background.jpg");
 }
 
 #ejectText{
-    position: fixed;
-    top: 45%;
-    left: 40%;
-    margin: auto;
-    text-align: center;
-    color: white;
-    font-size: 22pt;
-}
-
-.winText{
     position: fixed;
     top: 45%;
     left: 40%;
