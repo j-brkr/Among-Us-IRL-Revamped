@@ -39,8 +39,10 @@ def sign_in_post():
         sa.select(User).where(User.name == username))
     
     if user is None:
-        flash(f'User {username} does not exist')
-        return redirect(url_for('sign_in'))
+        # Create new user
+        user = User(name=username, color="#00A000")
+        db.session.add(user)
+        db.session.commit()
     
     # Get current game
     active_game = Game.get_active_game()
