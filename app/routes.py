@@ -25,7 +25,7 @@ def select_user():
     users = db.session.scalars(sa.select(User)).all()
     return render_template("select_user.html", title="Select User", users=users)
 
-"""# GET request
+# GET request
 @app.get('/sign_in/<username>')
 def sign_in(username):
     '''
@@ -42,9 +42,9 @@ def sign_in(username):
         flash('Invalid user')
         return redirect(url_for('select_user'))
     
-    return render_template("sign_in.html", title="Sign In", user=user)"""
+    return render_template("sign_in.html", title="Sign In", user=user)
 
-"""@app.post('/sign_in/<username>')
+@app.post('/sign_in/<username>')
 def sign_in_post(username):
     '''
     Handles POST requests to sign_in. 
@@ -71,7 +71,7 @@ def sign_in_post(username):
     
     login_user(user, remember=True)
 
-    return redirect(url_for('player'))"""
+    return redirect(url_for('player'))
 
 @app.route('/player')
 @login_required
