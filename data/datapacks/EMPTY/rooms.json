@@ -1,0 +1,13 @@
+[
+    {"name": "Porch"    },
+    {"name": "Garden"    },
+    {"name": "Changeroom"            },
+    {"name": "Gym"    },
+    {"name": "Receiption"},
+    {"name": "Office"         },
+    {"name": "Dining Hall"     },
+    {"name": "Kitchen"   },
+    {"name": "Laundry"       },
+    {"name": "Electrical"      },
+    {"name": "Boiler"        },
+]

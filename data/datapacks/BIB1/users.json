@@ -1,0 +1,87 @@
+[
+    {
+        "name": "J",
+        "color": "#0000FF",
+        "pin": "1234"
+    },
+    {
+        "name": "Andy",
+        "color": "#FFFFA0",
+        "pin": "1234"
+    },
+    {
+        "name": "Bethany",
+        "color": "#FFFFFF",
+        "pin": "1234"
+    },
+    {
+        "name": "Sally",
+        "color": "#0D4F54",
+        "pin": "1234"
+    },
+    {
+        "name": "Gabriella",
+        "color": "#FF0000",
+        "pin": "1234"
+    },
+    {
+        "name": "Esther",
+        "color": "#CC8899",
+        "pin": "1234"
+    },
+    {
+        "name": "Tay",
+        "color": "#606060",
+        "pin": "1234"
+    },
+    {
+        "name": "Ren",
+        "color": "#A52A2A",
+        "pin": "1234"
+    },
+    {
+        "name": "Tasmine",
+        "color": "#00FFFF",
+        "pin": "1234"
+    },
+    {
+        "name": "Sophia",
+        "color": "#FF0000",
+        "pin": "1234"
+    },
+    {
+        "name": "Les",
+        "color": "#F0F0FF",
+        "pin": "1234"
+    },
+    {
+        "name": "Sofie",
+        "color": "#6F8FAF",
+        "pin": "1234"
+    },
+    {
+        "name": "Alice",
+        "color": "#FFFF00",
+        "pin": "1234"
+    },
+    {
+        "name": "Mai",
+        "color": "#F5F5DC",
+        "pin": "1234"
+    },
+    {
+        "name": "Parson",
+        "color": "#77ff00",
+        "pin": "1234"
+    },
+    {
+        "name": "William",
+        "color": "#800000",
+        "pin": "1234"
+    },
+    {
+        "name": "James",
+        "color": "#808080",
+        "pin": "1234"
+    }
+]
