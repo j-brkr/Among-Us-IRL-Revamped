@@ -25,9 +25,8 @@
 }
 
 .cell{
-    font-size: 5vh;
-    padding: 0.5vh;
-    font-family: Sunborn, Arial, Helvetica, sans-serif;
+    font-size: 6vh;
+    font-family: Joff;
     background-color: #acd3b5;
     width: 1.1em;
     height: 1.1em;
@@ -41,6 +40,8 @@
 #pin-✓{
     background-color: #3f7742;
     font-size: 5vh;
+    width: 1.32em;
+    height: 1.32em;
 }
 
 #pin-box{

@@ -24,7 +24,8 @@ class User(UserMixin, db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(User).delete()
         user_path = os.path.join(data_path, "users.json")
         try:
@@ -65,7 +66,19 @@ class Game(db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='game')
 
-    def get_active_game():
+    def check_win(self):
+        if self.imposters_alive() < 1:
+            self.status = "CREW_WIN"
+            self.time_finished = int(datetime.now(timezone.utc).timestamp())
+            db.session.commit()
+        
+        if self.imposters_alive() >= self.crew_alive():
+            self.status = "IMPOSTER_WIN"
+            self.time_finished = int(datetime.now(timezone.utc).timestamp())
+            db.session.commit()
+
+    @classmethod
+    def get_active_game(cls):
         return db.session.scalar(sa.select(Game).where(Game.active))
     
     def assign_roles(self):
@@ -93,12 +106,27 @@ class Game(db.Model):
     
     def start_game(self):
         self.status = "GAME"
-        self.time_started = datetime.now(timezone.utc)
+        self.time_started = int(datetime.now(timezone.utc).timestamp())
         db.session.commit()
 
     def emergency(self):
         self.status = "MEETING"
         db.session.commit()
+    
+    def get_imposters(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        imposters = [player for player in players if player.alive and player.role==1]
+        return imposters
+    
+    def imposters_alive(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        count = sum([(1 if player.role==1 else 0) for player in players if player.alive])
+        return count
+    
+    def crew_alive(self):
+        players = db.session.scalars(sa.select(Player).where(Player.game_id==self.id)).all()
+        count = sum([(1 if player.role==0 else 0) for player in players if player.alive])
+        return count
 
     def player_of_user(self, user):
         player = db.session.scalar(sa.select(Player).where(sa.and_(Player.game_id == self.id, Player.user_id == user.id)))
@@ -138,7 +166,8 @@ class Room(db.Model):
 
     tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(Room).delete()
         room_path = os.path.join(data_path, "rooms.json")
         try:
@@ -167,7 +196,8 @@ class Task(db.Model):
 
     player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='task')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(Task).delete()
         tasks_path = os.path.join(data_path, "tasks.json")
         try:

@@ -96,13 +96,26 @@ def player():
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
     return render_template("player.html", title="Player", user=current_user, player=player, tasks=tasks)
 
+@app.route('/role-reveal')
+@login_required
+def role_reveal():
+    # Get current game
+    game = Game.get_active_game()
+    if game is None: return "No active game", 404
+    
+    # Get player
+    player = game.player_of_user(current_user)
+
+    imposters = game.get_imposters()
+
+    return render_template("role-reveal.html", player=player, imposters=imposters)
+
 @app.route('/player-task_box')
 @login_required
 def task_box():
     # Get current game
     game = Game.get_active_game()
-    if game is None:
-        return "No active game", 404
+    if game is None: return "No active game", 404
     
     # Get player
     player = game.player_of_user(current_user)
@@ -110,6 +123,12 @@ def task_box():
     tasks = db.session.scalars(sa.select(PlayerTask).where(PlayerTask.player_id==player.id)).all()
     return render_template("player-task_box.html", player=player, tasks=tasks)
 
+@app.route('/voting-grid')
+def voting_grid():
+    game = Game.get_active_game()
+    if game is None: return "No game running", 404
+    players = db.session.scalars(sa.select(Player).where(Player.game_id==game.id)).all()
+    return render_template("voting-grid.html", players=players)
 
 # Gamemaster
 
@@ -164,7 +183,12 @@ def central():
     Games page for Central.
     Shows emergency meeting button, voting screen and winner
     '''
-    return render_template("central.html")
+    game = Game.get_active_game()
+    if game is None:
+        flash("No game running")
+        return redirect(url_for('directories'))
+    players = db.session.scalars(sa.select(Player).where(Player.game_id==game.id)).all()
+    return render_template("central.html", players = players)
 
 # Interfaces
 
@@ -179,11 +203,13 @@ def interface_route(path):
 @app.route("/api/<path:path>", methods=['GET', 'POST', 'PUT'])
 def api(path):
     path_parts = path.split("/")
+    resource = path_parts[0]
     # relates to current game
-    if path_parts[0]=="game":
-        # Get the current game and return 404 on failure
-        active_game = Game.get_active_game()
-        if active_game is None: return "No active game running", 404
+    # Get the current game and return 404 on failure
+    active_game = Game.get_active_game()
+    if resource=="game":
+        if active_game is None: 
+            return url_for("settings")
 
         if len(path_parts) == 1:
             # Game object
@@ -194,13 +220,28 @@ def api(path):
             players = db.session.scalars(active_game.players.select()).all()
             response = [player.as_dict() for player in players]
             return response
-    elif path_parts[0]=="player_task":
-        ptask_id = int(path_parts[1])
-        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==ptask_id))
-        if ptask is None: return "player task {} not found".format(ptask_id), 404
-        p = request.get_json()
-        ptask.completed = p["completed"]
-        db.session.add(ptask)
+        elif path_parts[1] == "imposter_count":
+            response = {"imposter_count": active_game.imposters_alive()}
+            return response
+    elif resource=="player":
+        id = int(path_parts[1])
+        player = Player.query.get(id)
+        if player is None: return "{} {} not found".format(resource, id), 404
+        if request.method == 'PUT':
+            p = request.get_json()
+            player.alive = p["alive"]
+            db.session.add(player)
+            db.session.commit()
+            active_game.check_win()
+        return player.as_dict()
+    elif resource=="player_task":
+        id = int(path_parts[1])
+        ptask = db.session.scalar(sa.select(PlayerTask).where(PlayerTask.id==id))
+        if ptask is None: return "{} {} not found".format(resource, id), 404
+        if request.method=='PUT':
+            p = request.get_json()
+            ptask.completed = p["completed"]
+            db.session.add(ptask)
         db.session.commit()
         return "success"
     return "The resource {} could not be found".format(path), 404
@@ -227,6 +268,19 @@ def command(command_string):
             return ("Cannot call emergency meeting, this game is in status: " + game.status), 403
         game.emergency()
         return "Emergency Called!", 200
+    elif command_string == "EJECTED":
+        if game.status != "MEETING":
+            return ("Cannot end emergency meeting, this game is in status: " + game.status), 403
+        game.status = "GAME"
+        db.session.commit()
+        return "Game resuming!", 200
+    elif command_string == "END_GAME":
+        #if game.status != "MEETING":
+        #    return ("Cannot end emergency meeting, this game is in status: " + game.status), 403
+        game.status = "END"
+        game.active = False
+        db.session.commit()
+        return "Game ended!", 200
 
     return "Unrecognized command: " + str(command_string), 404
 

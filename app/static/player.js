@@ -2,14 +2,14 @@ let page = "NONE"
 
 $( document ).ready(function(){
     checkStatus();
-    setInterval(checkStatus, 2000);
+    setInterval(checkStatus, 1500);
 })
 
 function checkStatus(){
     $.get( "/api/game", function(game){
         console.log(game);
         if(game["status"] != page.status){
-            console.log("Status mismatch: " + game["status"] + " and " + page.status)
+            //console.log("Status mismatch: " + game["status"] + " and " + page.status)
             loadPage(game["status"]);
         }
     })
@@ -25,17 +25,24 @@ const lobby_page = {
     selector: "#lobby"
 }
 
-const role_reveal_page = {
+const reveal_page = {
     status: "REVEAL",
     title: "Role Reveal",
-    selector: "#role-reveal"
+    selector: "#role-reveal",
+    load: function(){
+        $.get("/role-reveal", function(data){
+            $( "#role-reveal" ).html(data);
+        });
+    }
 }
 
 const game_page = {
     status: "GAME",
     title: "Game",
     selector: "#game",
-    load: this.update,
+    load: function(){
+        this.update();
+    },
     update: function(){
         //$( "#taskBox" ).empty();
         $.get("/player-task_box", function(data){
@@ -56,6 +63,7 @@ const meeting_page = {
 
 const pages={
     "LOBBY": lobby_page,
+    "REVEAL": reveal_page,
     "GAME": game_page,
     "MEETING": meeting_page
 }
@@ -66,6 +74,22 @@ function loadPage(status){
     $( 'title' ).text("Among Us IRL - " + page.title)
     $( page.selector ).css("display", "block");
     if("load" in page) page.load();
+}
+
+function showCrewMap(){
+    $( " #taskMap ").css("display", "block");
+}
+
+function hideCrewMap(){
+    $( " #taskMap ").css("display", "none");
+}
+
+function showImposterMap(){
+    $( " #sabotageMap ").css("display", "block");
+}
+
+function hideImposterMap(){
+    $( " #sabotageMap ").css("display", "none");
 }
 
 function taskClick(playerTaskId, completed){
@@ -79,5 +103,11 @@ function taskClick(playerTaskId, completed){
         success: function (result){
             game_page.update();
         }
+    });
+}
+
+function report(){
+    $.post("command/EMERGENCY", function(data){
+        checkStatus();
     });
 }
