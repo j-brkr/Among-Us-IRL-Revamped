@@ -20,7 +20,6 @@ class User(UserMixin, db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     name: so.Mapped[str] = so.mapped_column(sa.String(32))
     color: so.Mapped[str] = so.mapped_column(sa.String(7))
-    pin: so.Mapped[str] = so.mapped_column(sa.String(6))
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
 
@@ -32,14 +31,11 @@ class User(UserMixin, db.Model):
             with open(user_path, 'r') as file:
                 data = json.load(file)
                 for user_data in data:
-                    db.session.add(User(name=user_data["name"], color=user_data["color"], pin=user_data["pin"]))
+                    db.session.add(User(name=user_data["name"], color=user_data["color"]))
                 db.session.commit()
 
         except FileNotFoundError:
             print("Error loading User file " + user_path + " . The file does not exist")
-
-    def check_pin(self, pin):
-        return self.pin == pin
     
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
