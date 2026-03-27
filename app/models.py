@@ -24,7 +24,8 @@ class User(UserMixin, db.Model):
 
     players: so.WriteOnlyMapped['Player'] = so.relationship(back_populates='user')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(User).delete()
         user_path = os.path.join(data_path, "users.json")
         try:
@@ -76,7 +77,8 @@ class Game(db.Model):
             self.time_finished = int(datetime.now(timezone.utc).timestamp())
             db.session.commit()
 
-    def get_active_game():
+    @classmethod
+    def get_active_game(cls):
         return db.session.scalar(sa.select(Game).where(Game.active))
     
     def assign_roles(self):
@@ -164,7 +166,8 @@ class Room(db.Model):
 
     tasks: so.WriteOnlyMapped['Task'] = so.relationship(back_populates='room')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(Room).delete()
         room_path = os.path.join(data_path, "rooms.json")
         try:
@@ -193,7 +196,8 @@ class Task(db.Model):
 
     player_tasks: so.WriteOnlyMapped['PlayerTask'] = so.relationship(back_populates='task')
 
-    def load(data_path):
+    @classmethod
+    def load(cls, data_path):
         db.session.query(Task).delete()
         tasks_path = os.path.join(data_path, "tasks.json")
         try:
