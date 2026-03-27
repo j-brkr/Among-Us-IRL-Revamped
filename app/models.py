@@ -68,12 +68,12 @@ class Game(db.Model):
     def check_win(self):
         if self.imposters_alive() < 1:
             self.status = "CREW_WIN"
-            self.time_finished = datetime.now(timezone.utc)
+            self.time_finished = int(datetime.now(timezone.utc).timestamp())
             db.session.commit()
         
         if self.imposters_alive() >= self.crew_alive():
             self.status = "IMPOSTER_WIN"
-            self.time_finished = datetime.now(timezone.utc)
+            self.time_finished = int(datetime.now(timezone.utc).timestamp())
             db.session.commit()
 
     def get_active_game():
@@ -104,7 +104,7 @@ class Game(db.Model):
     
     def start_game(self):
         self.status = "GAME"
-        self.time_started = datetime.now(timezone.utc)
+        self.time_started = int(datetime.now(timezone.utc).timestamp())
         db.session.commit()
 
     def emergency(self):
