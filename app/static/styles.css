@@ -5,10 +5,11 @@
 body{
 	background-image: url("background.png");
 	background-size: cover;
-	background-repeat: no-repeat;
-	background-color: #0a2f74;
-	font-family: arial;
-	color: white;
+	background-position-y: -20%;
+	background-color: #89b0a7;
+	font-family: Consolas, monospace;
+	font-weight: bolder;
+	color: black;
 	font-size: 100%;
 	height: 100%;
 	margin: 0;
@@ -97,8 +98,14 @@ footer{
 
 /* Game */
 
+#tasksHeading{
+	width: 100vw;
+}
+
 #mapButton{
-	float: right;
+	position: absolute;
+	top: 8vw;
+	right: 10px;
 	height: 6vh;
 	margin: 1vh;
 }
@@ -145,14 +152,15 @@ footer{
 #abilities{
 	position: fixed;
 	bottom: 0;
-	background-color: #808080C0;
-	padding: 4vw;
+	/*background-color: #808080C0;*/
+	background-image: url("buttons_background.png");
+	padding: 2vw;
 	border-radius: 0 4vw 0 0;
 }
 
 #abilities img{
-	width: 22vw;
-	padding: 1vw
+	width: 29vw;
+	padding: 1vw;
 }
 
 /* Meeting */
